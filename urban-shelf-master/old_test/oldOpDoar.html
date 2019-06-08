@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <title>Operador- Doar Livro</title>
+      <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+      <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <!-- My CSS if needed -->
+      <link rel="stylesheet" type="text/css" href="style/userCSS.css">
+      <!-- FONT AWESOME reference -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+      <!-- SCRIPT reference -->
+      <script src="script/functions.js"></script>
+      <script src="script/index.js"></script>
+      <script src="script/operadorDoar.js"></script>
+   </head>
+   <body>
+      <!-- OPERADOR NAVBAR -->
+      <nav id="userNavbar" class="navbar navbar-expand-lg sticky-top">
+         <a class="navbar-brand" href="catalog.html"><img src="images/icon_alternate40x40white.png" alt=""></a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#operadorNavCollapse" aria-controls="operadorNavCollapse" aria-expanded="false" aria-label="Toggle navigation">
+         <i class="fas fa-bars"></i>
+         </button>
+         <div class="collapse navbar-collapse" id="operadorNavCollapse">
+            <form class="form-inline">
+               <input id="searchBar" class="form-control" type="search" placeholder="Procurar..." aria-label="Search">
+               <button id="searchBtn" class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+               <li class="nav-item active">
+                  <a class="nav-link" href="operadorDoar.html">Doar Livro</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="operadorCatalog.html">Catálogo</a>
+               </li>
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <img id="userPhoto" src="images/userIcon(white).png" alt="">User
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                     <a class="dropdown-item" href="profilePage.html">Perfil</a>
+                     <div class="dropdown-divider"></div>
+                     <a id="operadorLogoutBtn" class="dropdown-item" href="#">Log Out</a>
+                  </div>
+               </li>
+            </ul>
+         </div>
+      </nav>
+      <!-- FORMULARIO DE DOAÇÃO -->
+      <div id="doarLivroContainer" class="container container-fluid">
+          <div class="row row-fluid">
+                <div class="col-sm-4">
+                        <br>
+                        <h1>Formulário de Doação</h1>
+                       <form id="formDoarLivro">
+                          <!-- TITULO LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroTitulo">Título do livro</label>
+                             <input type="text" class="form-control" id="doarLivroTitulo" maxlength="50" required>
+                          </div>
+                          <!-- URL CAPA LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroCapa">Capa</label>
+                             <input type="url" class="form-control" id="doarLivroCapa" placeholder="http://abc123.com/350x150" maxlength="50" required>
+                          </div>
+                          <!-- BREVE DESCRIÇAO LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroDescription">Descrição do livro</label>
+                             <input type="text" class="form-control" id="doarLivroDescription" maxlength="120" required>
+                          </div>
+                          <!-- LISTA DOS AUTORES DO LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroAutores">Autores</label>
+                             <input type="text" class="form-control" id="doarLivroAutores" maxlength="50" required>
+                          </div>
+                          <!-- DATA LANÇAMENTO LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroDataLançamento">Data de lançamento</label>
+                             <input type="date" class="form-control" id="doarLivroDataLançamento" maxlength="10" required>
+                          </div>
+                          <!-- GÉNERO LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroGenero">Género</label>
+                             <select class="form-control" id="doarLivroGenero" required>
+                             </select>
+                          </div>
+                          <!-- TAGS LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroTags">Tags</label>
+                             <select class="form-control" id="doarLivroTags" required>
+                             </select>
+                          </div>
+                          <!-- EDITORA DO LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroEditora">Editora</label>
+                             <input type="text" class="form-control" id="doarLivroEditora" maxlength="50" required>
+                          </div>
+                          <!-- Nº DE PAGINAS DO LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroPaginas">Nº de páginas</label>
+                             <input type="number" class="form-control" id="doarLivroPaginas" max="9999" required>
+                          </div>
+                          <!-- ESTADO DO LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroEstado">Estado</label>
+                             <select class="form-control" id="doarLivroEstado" required>
+                                <option>Bom</option>
+                                <option>Médio</option>
+                                <option>Fraco</option>
+                             </select>
+                          </div>
+                          <!-- NOME DO DOADOR -->
+                          <div class="form-group">
+                             <label for="doarLivroDoador">Nome do doador (Opcional)</label>
+                             <input type="text" class="form-control" id="doarLivroDoador" maxlength="50">
+                          </div>
+                          <!-- DATA DOAÇAO LIVRO -->
+                          <div class="form-group">
+                             <label for="doarLivroDataDonation">Data de doação</label>
+                             <input type="date" class="form-control" id="doarLivroDataDonation" maxlength="10" required>
+                          </div>
+                          <!-- CODIGO BIBLIOTECA (PEDE A LOCALIDADE DA BIBLIOTECA MAS RECEB O ID) -->
+                          <div class="form-group">
+                             <label for="doarLivroBiblioteca">Biblioteca</label>
+                             <select class="form-control" id="doarLivroBiblioteca" required>
+                             </select>
+                          </div>
+                          <!-- BOTAO SUBMETER FORM -->
+                          <div class="form-group">
+                             <button type="submit" class="btn">Doar</button>
+                             </select>
+                          </div>
+                       </form>
+                       <br>
+                    </div>
+                    <!-- TABLE BOOKS -->
+                    <div class="col-sm-8">
+                        <br>
+                            <div class="table-responsive">
+                                    <table id="tblBooks" class="table table-sm table-dark">            
+                                    </table>
+                                    <br>
+                                    <br>
+                                 </div>
+                    </div>
+
+          </div>
+          </div>
+          
+      <!-- FOOTER -->
+      <footer id="myFooter">
+         <br>
+         <div>
+            <div class="container-fluid text-center">
+               <div class="row">
+                  <div class="col-md-4">
+                     <h5 class="text-uppercase">Membros da Equipa</h5>
+                     <p>André Faria - 9170113@esmad.ipp.pt</p>
+                     <p>Gonçalo Guedes - </p>
+                     <p>Miguel Melo - 9150176@esmad.ipp.pt/ <br> iminyourpie@gmail.com</p>
+                  </div>
+                  <div class="col-md-4">
+                     <br><br><br>
+                     <img id="ippLogo" src="images/logo-ipp_edited.png" alt="" srcset="">
+                     <br><br><br>
+                  </div>
+                  <div class="col-md-4">
+                     <h5 class="text-uppercase">Acompanhe o Projeto</h5>
+                     <p><a target="_blank" href="https://g8projectlog.wordpress.com/" style="color : white">Diário de bordo</a></p>
+                     <!--  target="_blank" SERVE PARA ABRIR NUM NOVO SEPARADOR EM VEZ DE IR PARA OUTRA PÁGINA NO MESMO SEPARADOR -->
+                     <p><a target="_blank" href="https://github.com/ImInYourPie/urban-shelf" style="color : white">Repositório GitHub</a></p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      
+      <!-- FONT -->
+      <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    </body>
+</html>

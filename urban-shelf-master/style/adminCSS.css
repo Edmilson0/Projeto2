@@ -1,0 +1,103 @@
+#adminNavbar{
+    color: white;
+    background-color: rgb(0, 0, 0);
+}
+
+.navbar-toggler{
+    background-color: white;
+}
+
+
+/* .navbar-brand{
+    padding-top:4px !important; padding-bottom: 8px !important;
+} */
+
+
+.navbar-nav li a{
+    color: white;
+}
+
+.navbar-nav li a:hover,
+.navbar-nav li a:focus{
+    color: rgb(0, 84, 255);
+}
+
+.navbar-nav>.active>a, .navbar-nav>.active>a:hover, .navbar-nav>.active>a:focus {
+    color: rgb(0, 84, 255);
+    display: block;
+}
+
+ul{
+    margin: 0px;
+    padding: 0px;
+}
+
+
+#searchBar{
+    width: 400px;
+    height: 30px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+
+#searchBtn{
+    background-color: rgb(0, 84, 255);
+    height: 30px;
+    width: 50px;
+    align-content: center;
+    display: block;
+    padding: 0px;
+    color: white;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.thead{
+    color: white;
+    background-color: rgb(0, 0, 0);
+}
+
+.dropdown-menu,
+.dropdown-menu a:hover,
+.dropdown-menu a:focus{
+    background-color: rgb(0, 0, 0);
+}
+
+#userIcon{
+    padding-right: 5px;
+}
+
+.container{
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.btn{
+    background-color: rgb(0, 84, 255);
+    color: white;
+    width: 200px;
+}
+
+footer{
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+#myMap{
+    border-color: rgba(211, 211, 211, 0.8);
+    border-style: solid;
+    border-width: 3px;
+}
+
+#ippLogo{
+    width: 200px;
+    height: 50px;
+}
+
+#userPhoto{
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    margin-left: 10px;
+    border-radius: 50%;
+}

@@ -1,0 +1,431 @@
+/* NAVBAR AND NAV ITEMS CSS */
+#userNavbar{
+    color: white;
+    background-color: rgb(0, 21, 64);
+}
+
+.navbar-toggler{
+    background-color: white;
+}
+
+/* .navbar-brand{
+    padding-top:4px !important; padding-bottom: 8px !important;
+} */
+
+.fa-bars{
+    color: rgb(0, 21, 64);
+}
+
+.navbar-nav li a{
+    color: white;
+}
+
+.navbar-nav li a:hover,
+.navbar-nav li a:focus{
+    color: rgb(0, 84, 255);
+}
+
+.navbar-nav>.active>a, .navbar-nav>.active>a:hover, .navbar-nav>.active>a:focus {
+    color: rgb(0, 84, 255);
+    display: block;
+}
+
+ul{
+    margin: 0px;
+    padding: 0px;
+}
+
+/* DROPDOWN MENUS CSS */
+.dropdown-menu{
+    text-align: right; 
+}
+
+.dropdown-menu,
+.dropdown-menu a:hover,
+.dropdown-menu a:focus{
+    background-color: rgb(0, 21, 64);
+    border: 0px;
+}
+
+/* ICONS CSS */
+#userIcon{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+#profileImage{
+    background-color: lightgrey;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+/* SEARCHBAR CSS */
+#searchBar{
+    width: 85%;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    margin-right: 0px;
+    border-color:  rgb(0, 84, 255);
+}
+
+/* FONT AWESOME I CSS */
+.fas-edit{
+    color: rgb(0, 21, 64);
+}
+
+#searchBtn{
+    background-color: rgb(0, 84, 255);
+    border-color: rgb(0, 84, 255);
+    height: 38px;
+    width: 15%;
+    margin-left: 0px;
+    align-content: center;
+    display: block;
+    padding: 0px;
+    color: white;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#clearBtn{
+    width: 29%;
+    background-color: rgb(0, 21, 100) !important;
+
+}
+
+#glass{
+    color: white;
+}
+
+/* CONTAINERS CSS */
+#doarLivroContainer{
+    background-color: lightgrey;
+    margin-bottom: 0px;
+}
+
+/* JUMBOTRONS CSS */
+.jumbotron{
+    margin-bottom: 0px;
+}
+
+#welcomeJumbotron{
+    background: url("banner4.jpg") no-repeat;
+    background-size: cover;
+    background-position: top center;
+    width:100%;
+    height: auto;
+    color: white;
+    height: 500px;
+}
+
+#whereDiv{
+    background-color: rgb(0, 21, 64);
+    background-size: cover;
+    background-position: top center;
+    height: auto;
+    width:100%;
+    color: white;
+}
+
+
+#infoDiv{
+    background-color: white;
+    background-size: cover;
+    background-position: top center;
+    height: auto;
+    width:100%;
+    color: rgb(0, 21, 64);
+}
+
+#jumbotronBooks{
+    background-color: white;
+    color: black;
+}
+
+/* MODALS CSS */
+.modal-body, .modal-header{
+    background-color: white;
+    color: rgb(0, 21, 64);
+}
+
+/* BUTTONS CSS */
+.btn{
+    background-color: rgb(0, 84, 255);
+    color: white;
+    width: 100px;
+}
+
+.btn:hover,
+.btn:focus{
+    background-color: rgb(0, 63, 191);
+}
+
+/* FORM INPUTS CSS */
+.form-control{
+    border-color: rgb(0, 21, 64);
+}
+
+/* TABLE CSS */
+.thead{
+    color: white;
+    background-color: rgb(0, 21, 64);
+}
+
+/* H1 PHRASE CSS */
+#findYourShelf{
+    text-align: center;
+    font-weight: bolder;
+    font-size: 60px;
+    font-family: 'Montserrat', sans-serif;
+    display: block;
+}
+
+/* FOOTER CSS */
+#myFooter{
+    background-color: rgb(0, 21, 64);
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+#myFooterReqs{
+    background-color: rgb(0, 21, 64);
+    color: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+#ippLogo{
+    width: 200px;
+    height: 50px;
+}
+
+/* OTHER CSS */
+#navBibliotecas{
+    margin-right: 15px;
+}
+
+/* IMG USER CSS */
+#userPhoto{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.bookCover{
+    height: 120px;
+    width: 80px;
+}
+
+/* SIDEBAR CSS */
+/* Fixed sidenav, full height */
+#sidenav {
+  height: 500px;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0, 21, 64);
+  overflow-x: hidden;
+  padding-top: 0px;
+  width: 100%;
+}
+
+/* Style the sidenav links and the dropdown button */
+#sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  display: block;
+  border: none;
+  background: none;
+  width:100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+/* On mouse-over */
+#sidenav a:hover, .dropdown-btn:hover {
+  color: rgb(0, 84, 255);
+}
+
+/* Main content */
+ .main {
+  margin-left: 200px; /* Same as the width of the sidenav */
+  font-size: 20px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+.active{
+    color: rgb(0, 84, 255);
+}
+
+/* Dropdown container (hidden by default) */
+.dropdown-container {
+  display: none;
+  background-color: rgb(0, 21, 100);
+  padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+/* Close Filter button css */
+#closeFilterBtn{
+    width: 100%;
+    color: white;
+    background-color: rgb(0, 21, 64);
+}
+
+/* #bookPageBookCover{
+    height: 80%;
+    width: 100%;
+} */
+
+#bookScore{
+    text-align: center;
+}
+
+/* STAR COLR CSS */
+.checked{
+    color: rgb(0, 84, 255);
+}
+
+/* REQUISITION BUTTON CSS */
+#requisitionButton{
+    width: 100%;
+}
+
+#notificationRequestBtn{
+    width: 100% !important;
+}
+
+#inputComment{
+    width: 100%;
+}
+
+#commentButton{
+    width: 100%;
+}
+
+/* BOOK ITEM CSS */
+.bookItem:hover, .bookItem:focus{
+    cursor: pointer;
+}
+
+/* hide mobile version by default */
+#mobile {
+    display: none;
+  }
+  /* when screen is less than 600px wide
+     show mobile version and hide desktop */
+  @media (max-width: 600px) {
+    #mobile {
+      display: block;
+    }
+    #desktop {
+      display: none;
+    }
+  }
+
+#catalogHeader{
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 2px;
+    border-color: rgb(0, 21, 64);
+    border-style: solid;
+}
+
+.card{
+    height: 100%;
+}
+
+.card-body{
+    font-size: 0.8em;
+}
+
+.card-footer{
+    text-align: center;   
+}
+
+.score{
+    width: 100%;
+    height: 100%;
+}
+
+/* CATALOG PAGINATION BUTTONS CSS */
+#paginationButtons{
+    text-align: center;
+}
+
+.fa-arrow-circle-left, .fa-arrow-circle-right{
+    font-size: 30px;
+    color: rgb(0, 84, 255);
+}
+
+#previousPageBtn:hover,
+#nextPageBtn:hover{
+    cursor: pointer;
+}
+
+.userCommentImg{
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+}
+
+body{
+    background-color: rgb(247, 245, 245);
+}
+
+.containersBookPage{
+    background-color: white;
+}
+
+/* .userCommentsPhoto{
+    background-color: white;
+} */
+
+.userCommentsTxt{
+    background-color: white;
+    border-radius: 10px; 
+}
+
+#requisitionButton{
+    width: 100%;
+}
+
+#notificationRequestBtn{
+    width: 100%;
+}
+
+/* USER REQUISITIONS CSS */
+#tblRequisitions{
+    background-color: rgb(0, 84, 255, 0.8);
+    color: white;
+}
+
+thead{
+    background-color: rgb(0, 21, 64);
+    color: white;
+}
+
+.reqButton{
+    background-color: rgb(0, 21, 64);
+}

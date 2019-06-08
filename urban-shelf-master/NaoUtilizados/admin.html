@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Admin- Dashboard</title>
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!-- My CSS if needed -->
+    <link rel="stylesheet" type="text/css" href="style/adminCSS.css">
+    <!-- FONT AWESOME reference -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
+        crossorigin="anonymous">
+    <!-- SCRIPT reference -->
+    <script src="script/functions.js"></script>
+    <script src="script/index.js"></script>
+    <script src="script/adminIndex.js"></script>
+</head>
+
+<body>
+    <!-- ADMIN NAVBAR -->
+    <nav id="adminNavbar" class="navbar navbar-expand-lg sticky-top">
+        <a class="navbar-brand" href="admin.html">
+            <img class="img-fluid" src="images/icon_alternate40x40white.png" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#adminNavCollapse" aria-controls="adminNavCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="adminNavCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="adminBiblioteca.html">Bibliotecas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="adminCategorias.html">Categorias</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="adminTags.html">Tags</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="adminUsers.html">Utilizadores</a>
+                </li>
+                <li id="navDropdownUser" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img id="userPhoto" src="images/userIcon(white).png" alt="">User
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a id="dropdownUserPage" class="dropdown-item" href="profilePage.html">Perfil</a>
+                        <a id="adminDropdownPanel" class="dropdown-item" href="admin.html">Painel de Administrador</a>
+                        <a id="operadorDropdownPanel" class="dropdown-item" href="operadorDoar.html">Painel de Operador</a>
+                        <a id="adminDropdownPanel" class="dropdown-item" href="home.html">Ínicio</a>
+                        <div class="dropdown-divider"></div>
+                        <a id="logoutButton" class="dropdown-item" href="home.html">Log Out</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- SUB NAVBAR ADMIN -->
+
+    <!-- CONTENT -->
+    <div class="jumbotron mb-0">
+        <div class="row row-fluid">
+            <div class="col-md-6">
+
+            </div>
+            <div class="col-md-6">
+                <div class="text-right">
+                    <h4>Mapa de Bibliotecas</h4>
+                </div>
+                <div class="ml-auto map-responsive" id="myMap" style="min-height: 500px; width:100%"></div>
+            </div>
+
+        </div>
+    </div>
+    <!-- FOOTER -->
+    <footer id="myFooter">
+        <br>
+        <div>
+            <div class="container-fluid text-center">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5 class="text-uppercase">Membros da Equipa</h5>
+                        <p>André Faria - 9170113@esmad.ipp.pt</p>
+                        <p>Gonçalo Guedes - </p>
+                        <p>Miguel Melo - 9150176@esmad.ipp.pt/
+                            <br> iminyourpie@gmail.com</p>
+                    </div>
+                    <div class="col-md-4">
+                        <br>
+                        <br>
+                        <br>
+                        <img id="ippLogo" src="images/logo-ipp_edited.png" alt="" srcset="">
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="text-uppercase">Acompanhe o Projeto</h5>
+                        <p>
+                            <a target="_blank" href="https://g8projectlog.wordpress.com/" style="color : white">Diário de bordo</a>
+                        </p>
+                        <!--  target="_blank" SERVE PARA ABRIR NUM NOVO SEPARADOR EM VEZ DE IR PARA OUTRA PÁGINA NO MESMO SEPARADOR -->
+                        <p>
+                            <a target="_blank" href="https://github.com/ImInYourPie/urban-shelf" style="color : white">Repositório GitHub</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- MAP SCRIPT -->
+    <script>
+        let map;
+        let myMap = document.getElementById("myMap");
+        function initMap() {
+            let mapProp = {
+                center: new google.maps.LatLng(41.350607, -8.743372),
+                zoom: 12,
+            }
+            map = new google.maps.Map(myMap, mapProp);
+        }          
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- MAP API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhLXSaKAX9iQLJYoM4sG-9RCjImDYy0Ig&callback=initMap" async></script>
+</body>
+
+</html>

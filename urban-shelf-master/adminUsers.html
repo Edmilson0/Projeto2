@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+      <title>Admin- Utilizadores</title>
+      <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+      <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+      <!-- My CSS if needed -->
+      <link rel="stylesheet" type="text/css" href="style/adminCSS.css">
+      <!-- FONT AWESOME reference -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
+            crossorigin="anonymous">
+      <!-- SCRIPT reference -->
+      <script src="script/functions.js"></script>
+      <script src="script/index.js"></script>
+      <script src="script/adminUsers.js"></script>
+</head>
+
+<body>
+      <!-- ADMIN NAVBAR -->
+      <nav id="adminNavbar" class="navbar navbar-expand-lg sticky-top">
+            <a class="navbar-brand" href="adminUsers.html">
+                  <img src="images/icon_alternate40x40white.png" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#adminNavCollapse" aria-controls="adminNavCollapse"
+                  aria-expanded="false" aria-label="Toggle navigation">
+                  <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="adminNavCollapse">
+                  <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                              <a class="nav-link" href="adminBiblioteca.html">Bibliotecas</a>
+                        </li>
+                        <li class="nav-item">
+                              <a class="nav-link" href="adminCategorias.html">Categorias</a>
+                        </li>
+                        <li class="nav-item">
+                              <a class="nav-link" href="adminTags.html">Tags</a>
+                        </li>
+                        <li class="nav-item active">
+                              <a class="nav-link" href="adminUsers.html">Utilizadores</a>
+                        </li>
+                        <li id="navDropdownUser" class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <img id="userPhoto" src="images/userIcon(white).png" alt="">User
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a id="dropdownUserPage" class="dropdown-item" href="profilePage.html">Perfil</a>
+                                    <a id="adminDropdownPanel" class="dropdown-item" href="admin.html">Painel de Administrador</a>
+                                    <a id="operadorDropdownPanel" class="dropdown-item" href="operadorDoar.html">Painel de Operador</a>
+                                    <a id="adminDropdownPanel" class="dropdown-item" href="home.html">Ínicio</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a id="logoutButton" class="dropdown-item" href="#">Log Out</a>
+                              </div>
+                        </li>
+                  </ul>
+            </div>
+      </nav>
+      <div class="container-fluid">
+            <div id="containerUser" class="container">
+                  <div>
+                        <br>
+                        <h4>Adicionar Utilizador</h4>
+                        <br>
+                        <div class="row row-fluid">
+                              <div class="col-lg-4">
+                                    <div>
+                                          <form id="addUser">
+                                                <div class="form-group">
+                                                      <label class="" for="adminUsername">Username</label>
+                                                      <input class="form-control" type="text" name="" id="adminUsername" required>
+                                                </div>
+                                                <div class="form-group prepend">
+                                                      <label class="" for="adminPassword">Password</label>
+                                                      <input class="form-control" type="password" name="" id="adminPassword" minlength="6" placeholder="Inserir Password" required>
+                                                      <input class="form-control" type="password" name="" id="adminPassConfirm" placeholder="Confirmar Password" required>
+                                                </div>
+                                                <div class="form-group">
+                                                      <label class="" for="adminUserEmail">E-mail</label>
+                                                      <input class="form-control" type="email" name="" id="adminUserEmail" required>
+                                                </div>
+                                                <div class="form-group">
+                                                      <label for="adminUserType">Tipo de Utilizador</label>
+                                                      <select class="form-control" name="" id="adminUserType">
+                                                            <option selected value="0">Administrador</option>
+                                                            <option value="1">Operador</option>
+                                                            <option value="2">Utilizador Padrão</option>
+                                                      </select>
+                                                </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group">
+                                          <button type="submit" class="btn btn-outline-primary btn-sm">Adicionar</button>
+                                    </div>
+                                    </form>
+                                    <br>
+
+                              </div>
+                              <div class="col-lg-8">
+                                    <div class="table-responsive">
+                                          <table id="tblUsers" class="table table-sm table-dark">
+                                          </table>
+                                          <br>
+                                          <br>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <!-- FOOTER -->
+      <footer id="myFooter">
+            <div>
+                  <br>
+                  <div class="container-fluid text-center">
+                        <div class="row">
+                              <div class="col-md-4">
+                                    <h5 class="text-uppercase">Membros da Equipa</h5>
+                                    <p>André Faria - 9170113@esmad.ipp.pt</p>
+                                    <p>Gonçalo Guedes - </p>
+                                    <p>Miguel Melo - 9150176@esmad.ipp.pt/
+                                          <br> iminyourpie@gmail.com</p>
+                              </div>
+                              <div class="col-md-4">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <img id="ippLogo" src="images/logo-ipp_edited.png" alt="" srcset="">
+                                    <br>
+                                    <br>
+                                    <br>
+                              </div>
+                              <div class="col-md-4">
+                                    <h5 class="text-uppercase">Acompanhe o Projeto</h5>
+                                    <p>
+                                          <a target="_blank" href="https://g8projectlog.wordpress.com/" style="color : white">Diário de bordo</a>
+                                    </p>
+                                    <!--  target="_blank" SERVE PARA ABRIR NUM NOVO SEPARADOR EM VEZ DE IR PARA OUTRA PÁGINA NO MESMO SEPARADOR -->
+                                    <p>
+                                          <a target="_blank" href="https://github.com/ImInYourPie/urban-shelf" style="color : white">Repositório GitHub</a>
+                                    </p>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </footer>
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>
