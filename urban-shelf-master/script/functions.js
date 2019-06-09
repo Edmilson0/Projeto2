@@ -428,7 +428,7 @@ function getStoredBibliotecas() {
 
 // ARRAYUSERS GET LOCAL STORAGE
 function refreshStoredUsers() {
-    getStoredUsers();
+    //getStoredUsers();
     refreshTableUsers();
 }
 
@@ -617,6 +617,18 @@ function carregarBooks() {
         books = result.data;
         refreshTableBooks()
         console.log(books)
+    })
+
+
+
+}
+
+//fuctionCarregarBooks
+function carregarUsers() {
+    getUsers().then(result => {
+        users = result.data;
+        refreshTableUsers()
+        console.log(users)
     })
 
 
@@ -952,14 +964,14 @@ function refreshTableUsers() {
         "</tr>" +
         "</thead><tbody>"
 
-    for (var i = 0; i < arrayUsers.length; i++) {
+    for (var i = 0; i < users.length; i++) {
         strHtml += "<tr>" +
-            "<td>" + arrayUsers[i]._username + "</td>" +
-            "<td>" + arrayUsers[i]._email + "</td>" +
-            "<td>" + arrayUsers[i]._userType + "</td>" +
-            "<td>" + arrayUsers[i]._userId + "</td>" +
+            "<td>" + users[i].username + "</td>" +
+            "<td>" + users[i].email + "</td>" +
+            "<td>" + users[i].userTypeId + "</td>" +
+            "<td>" + users[i]._id + "</td>" +
             "<td>" +
-            "<a id='" + arrayUsers[i]._userId + "' class='removeCategoria'><i class='fas fa-trash-alt'></i></a> " +
+            "<a id='" + users[i]._id + "' class='removeCategoria'><i class='fas fa-trash-alt'></i></a> " +
             "</td>" +
             "</tr>"
     }
@@ -986,12 +998,17 @@ function refreshTableUsers() {
 
 // REMOVE USER
 function removeUser(id) {
-    for (let i = 0; i < arrayUsers.length; i++) {
+    /*for (let i = 0; i < arrayUsers.length; i++) {
         if (arrayUsers[i]._userId == id) {
             arrayUsers.splice(i, 1)
             localStorage.userStorage = JSON.stringify(arrayUsers);
         }
-    }
+    }*/
+    delUser(id).then(result => {
+        user = result.data;
+
+        carregarUsers()
+    })
 }
 
 
@@ -1645,7 +1662,7 @@ async function getBooks() {
 //POST USER
 async function postUser(data) {
     try {
-        const response = await axios.post("https://edmilson-edmilson0.c9users.io/users", data)
+        return await axios.post("https://edmilson-edmilson0.c9users.io/users", data)
     }
     catch (err) {
         console.log(err)
@@ -1683,6 +1700,18 @@ async function putBook(data, id) {
 async function delBook(id) {
     try {
         url = "https://edmilson-edmilson0.c9users.io/books/" + id;
+        console.log(id)
+        return await axios.delete(url)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+async function delUser(id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/users/" + id;
         console.log(id)
         return await axios.delete(url)
     }

@@ -3,7 +3,12 @@ window.onload = function () {
     allowLogout();
 
     // INITIATE FUNCTIONS
-    refreshStoredUsers();
+    getUsers().then(result => {
+        users = result.data;
+        refreshTableUsers()
+        console.log(users)
+    })
+    //refreshStoredUsers();
 
     // VARIABLES
     let tblUsers = document.getElementById("tblUsers");
@@ -42,8 +47,19 @@ window.onload = function () {
             adminPassConfirm.value = "";
             adminUserEmail.value = "";
             // STORE IN USERSTORAGE, AND GET TO DISPLAY TABLE
-            localStorage.userStorage = JSON.stringify(arrayUsers);
-            refreshStoredUsers();
+            //localStorage.userStorage = JSON.stringify(arrayUsers);
+            //refreshStoredUsers();
+            newUserBody = {
+                username: newUser._username,
+                password: newUser._password,
+                email: newUser._email,
+                //address: newUser._adress,
+                //photo: newUser._photo,
+                userTypeId: adminUserType.value
+            }
+            postUser(newUserBody).then(result => {
+                users = result.data;
+            carregarUsers()})
         }
         else {
             alert(errorMsg);
