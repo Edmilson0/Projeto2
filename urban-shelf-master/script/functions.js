@@ -553,7 +553,7 @@ function refreshTableBooks() {
                 removeBook(bookId);
                 refreshStoredBooks();
             }
-            event.preventDefault(); 
+            event.preventDefault();
         })
     }
 
@@ -611,7 +611,7 @@ function editBook(id) {
 }
 
 
-//fuctionCarregarBooks
+//functionCarregarBooks
 function carregarBooks() {
     getBooks().then(result => {
         books = result.data;
@@ -623,7 +623,7 @@ function carregarBooks() {
 
 }
 
-//fuctionCarregarBooks
+//functionCarregarBooks
 function carregarUsers() {
     getUsers().then(result => {
         users = result.data;
@@ -635,6 +635,41 @@ function carregarUsers() {
 
 }
 
+//functionCarregarTags
+function carregarTags() {
+    getTags().then(result => {
+        tags = result.data;
+        refreshTableTags()
+        console.log(tags)
+    })
+
+
+
+}
+
+//functionCarregarCategories
+function carregarCategories() {
+    getCategories().then(result => {
+        categories = result.data;
+        refreshTableCategorias()
+        console.log(categories)
+    })
+
+
+
+}
+
+//functionCarregarLibraries
+function carregarLibraries() {
+    getLibraries().then(result => {
+        libraries = result.data;
+        refreshTableBibliotecas()
+        console.log(libraries)
+    })
+
+
+
+}
 
 
 
@@ -657,13 +692,13 @@ function refreshTableTags() {
         "</tr>" +
         "</thead><tbody>"
 
-    for (var i = 0; i < arrayTags.length; i++) {
+    for (var i = 0; i < tags.length; i++) {
         strHtml += "<tr>" +
-            "<td>" + arrayTags[i]._nameTag + "</td>" +
-            "<td>" + arrayTags[i]._tagId + "</td>" +
+            "<td>" + tags[i].tagName + "</td>" +
+            "<td>" + tags[i]._id + "</td>" +
             "<td>" +
-            "<a id='" + arrayTags[i]._tagId + "' class='editBtn' data-toggle='modal' data-target='#editModal'><i class='fas fa-edit'></i></a> " +
-            "<a id='" + arrayTags[i]._tagId + "' class='removeTag'><i class='fas fa-trash-alt'></i></a> " +
+            "<a id='" + tags[i]._id + "' class='editBtn' data-toggle='modal' data-target='#editModal'><i class='fas fa-edit'></i></a> " +
+            "<a id='" + tags[i]._id + "' class='removeTag'><i class='fas fa-trash-alt'></i></a> " +
             "</td>" +
             "</tr>"
     }
@@ -693,7 +728,7 @@ function refreshTableTags() {
         editBtn[i].addEventListener("click", function () {
             // ON CLICK TARGET FILL MODAL WITH VALUES
             let tagId = editBtn[i].getAttribute("id");
-            document.getElementById("editTagName").value = arrayTags[i]._nameTag;
+            document.getElementById("editTagName").value = tags[i].tagName;
             document.getElementById("editTagName").focus();
             editTag(tagId);
             refreshStoredTags();
@@ -704,12 +739,17 @@ function refreshTableTags() {
 
 // REMOVE TAG
 function removeTag(id) {
-    for (let i = 0; i < arrayTags.length; i++) {
-        if (arrayTags[i]._tagId == id) {
-            arrayTags.splice(i, 1)
-            localStorage.tagStorage = JSON.stringify(arrayTags);
-        }
-    }
+    // for (let i = 0; i < tags.length; i++) {
+    //     // if (arrayTags[i]._tagId == id) {
+    //     //     arrayTags.splice(i, 1)
+    //     //     localStorage.tagStorage = JSON.stringify(arrayTags);
+    //     // }
+    // }
+    delTag(id).then(result => {
+        tag = result.data;
+
+        carregarTags()
+    })
 }
 
 // EDIT TAG
@@ -720,12 +760,13 @@ function editTag(id) {
         let tagName = document.getElementById("editTagName");
 
         // CHANGE VALUE
-        for (let i = 0; i < arrayTags.length; i++) {
-            if (arrayTags[i]._tagId == id) {
-                arrayTags[i]._nameTag = tagName.value;
-                localStorage.tagStorage = JSON.stringify(arrayTags);
-            }
-        }
+        putTag(tagName.value, id).then(result => {
+            tag = result.data;
+
+            carregarTags()
+        })
+
+        event.preventDefault();
     })
 }
 
@@ -756,13 +797,13 @@ function refreshTableCategorias() {
         "</tr>" +
         "</thead><tbody>"
 
-    for (var i = 0; i < arrayCategorias.length; i++) {
+    for (var i = 0; i < categories.length; i++) {
         strHtml += "<tr>" +
-            "<td>" + arrayCategorias[i]._nameCategory + "</td>" +
-            "<td>" + arrayCategorias[i]._categoryId + "</td>" +
+            "<td>" + categories[i].nameCategory + "</td>" +
+            "<td>" + categories[i]._id + "</td>" +
             "<td>" +
-            "<a id='" + arrayCategorias[i]._categoryId + "' class='editBtn' data-toggle='modal' data-target='#editModal'><i class='fas fa-edit'></i></a> " +
-            "<a id='" + arrayCategorias[i]._categoryId + "' class='removeCategoria'><i class='fas fa-trash-alt'></i></a> " +
+            "<a id='" + categories[i]._id + "' class='editBtn' data-toggle='modal' data-target='#editModal'><i class='fas fa-edit'></i></a> " +
+            "<a id='" + categories[i]._id + "' class='removeCategoria'><i class='fas fa-trash-alt'></i></a> " +
             "</td>" +
             "</tr>"
     }
@@ -777,7 +818,7 @@ function refreshTableCategorias() {
     // ADD LISTENER TO EACH REMOVE ITEM
     for (let i = 0; i < tdRemove.length; i++) {
         tdRemove[i].addEventListener("click", function () {
-            let isConfirmed = confirm("Está prestes a eliminar a categoria!");
+            let isConfirmed = confirm("Está prestes a eliminar a tag!");
             // ON CLICK TARGET REMOVE FROM TABLE
             if (isConfirmed) {
                 let categoryId = tdRemove[i].getAttribute("id");
@@ -792,7 +833,7 @@ function refreshTableCategorias() {
         editBtn[i].addEventListener("click", function () {
             // ON CLICK TARGET FILL MODAL WITH VALUES
             let categoryId = editBtn[i].getAttribute("id");
-            document.getElementById("editCategoriaName").value = arrayCategorias[i]._nameCategory;
+            document.getElementById("editCategoriaName").value = categories[i].nameCategory;
             document.getElementById("editCategoriaName").focus();
             editCategoria(categoryId);
             refreshStoredCategorias();
@@ -803,14 +844,21 @@ function refreshTableCategorias() {
 
 // REMOVE CATEGORIA
 function removeCategoria(id) {
-    for (let i = 0; i < arrayCategorias.length; i++) {
-        if (arrayCategorias[i]._categoryId == id) {
-            arrayCategorias.splice(i, 1);
-            localStorage.categoriaStorage = JSON.stringify(arrayCategorias);
-        }
-    }
+    // for (let i = 0; i < arrayCategorias.length; i++) {
+    //     if (arrayCategorias[i]._categoryId == id) {
+    //         arrayCategorias.splice(i, 1);
+    //         localStorage.categoriaStorage = JSON.stringify(arrayCategorias);
+    //     }
+    // }
+    delCategory(id).then(result => {
+        categories = result.data;
+
+        carregarCategories()
+    })
 
 }
+
+
 
 // EDIT CATEGORIA
 function editCategoria(id) {
@@ -820,14 +868,16 @@ function editCategoria(id) {
         let editCategoriaName = document.getElementById("editCategoriaName");
 
         // CHANGE VALUE
-        for (let i = 0; i < arrayCategorias.length; i++) {
-            if (arrayCategorias[i]._categoryId == id) {
-                arrayCategorias[i]._nameCategory = editCategoriaName.value;
-                localStorage.categoriaStorage = JSON.stringify(arrayCategorias);
-            }
-        }
+        putCategory(editCategoriaName.value, id).then(result => {
+            category = result.data;
+
+            carregarCategories()
+        })
+
+        event.preventDefault();
     })
 }
+
 
 
 
@@ -854,16 +904,16 @@ function refreshTableBibliotecas() {
         "</tr>" +
         "</thead><tbody>"
 
-    for (var i = 0; i < arrayBibliotecas.length; i++) {
+    for (var i = 0; i < libraries.length; i++) {
         strHtml += "<tr>" +
-            "<td>" + arrayBibliotecas[i]._location + "</td>" +
-            "<td>" + arrayBibliotecas[i]._adress + "</td>" +
-            "<td>" + arrayBibliotecas[i]._coordenatesLat + "; " + arrayBibliotecas[i]._coordenatesLong + "</td>" +
-            "<td>" + arrayBibliotecas[i]._capacity + "</td>" +
-            "<td>" + arrayBibliotecas[i]._libraryId + "</td>" +
+            "<td>" + libraries[i].location + "</td>" +
+            "<td>" + libraries[i].adress + "</td>" +
+            "<td>" + libraries[i].coordinatesLong + "; " + libraries[i].coordinatesLat + "</td>" +
+            "<td>" + libraries[i].capacity + "</td>" +
+            "<td>" + libraries[i]._id + "</td>" +
             "<td>" +
-            "<a id='" + arrayBibliotecas[i]._libraryId + "' class='editBtn' data-toggle='modal' data-target='#editModal'><i class='fas fa-edit'></i></a> " +
-            "<a id='" + arrayBibliotecas[i]._libraryId + "' class='removeBiblioteca'><i class='fas fa-trash-alt'></i></a> " +
+            "<a id='" + libraries[i]._id + "' class='editBtn' data-toggle='modal' data-target='#editModal'><i class='fas fa-edit'></i></a> " +
+            "<a id='" + libraries[i]._id + "' class='removeBiblioteca'><i class='fas fa-trash-alt'></i></a> " +
             "</td>" +
             "</tr>"
     }
@@ -892,11 +942,11 @@ function refreshTableBibliotecas() {
         editBtn[i].addEventListener("click", function () {
             // ON CLICK TARGET FILL MODAL WITH VALUES
             let bibliotecaId = editBtn[i].getAttribute("id");
-            document.getElementById("editLocation").value = arrayBibliotecas[i]._location;
-            document.getElementById("editAdress").value = arrayBibliotecas[i]._adress;
-            document.getElementById("editCapacity").value = arrayBibliotecas[i]._capacity;
-            document.getElementById("editLat").value = arrayBibliotecas[i]._coordenatesLat;
-            document.getElementById("editLong").value = arrayBibliotecas[i]._coordenatesLong;
+            document.getElementById("editLocation").value = libraries[i].location;
+            document.getElementById("editAdress").value = libraries[i].adress;
+            document.getElementById("editCapacity").value = libraries[i].capacity;
+            document.getElementById("editLat").value = libraries[i].coordinatesLat;
+            document.getElementById("editLong").value = libraries[i].coordinatesLong;
             editBiblioteca(bibliotecaId);
             refreshStoredBibliotecas();
         })
@@ -905,12 +955,17 @@ function refreshTableBibliotecas() {
 
 // REMOVE BIBLIOTECA
 function removeBiblioteca(id) {
-    for (let i = 0; i < arrayBibliotecas.length; i++) {
-        if (arrayBibliotecas[i]._libraryId == id) {
-            arrayBibliotecas.splice(i, 1)
-            localStorage.bibliotecaStorage = JSON.stringify(arrayBibliotecas);
-        }
-    }
+    // for (let i = 0; i < arrayBibliotecas.length; i++) {
+    //     if (arrayBibliotecas[i]._libraryId == id) {
+    //         arrayBibliotecas.splice(i, 1)
+    //         localStorage.bibliotecaStorage = JSON.stringify(arrayBibliotecas);
+    //     }
+    // }
+    delLibrary(id).then(result => {
+        library = result.data;
+
+        carregarLibraries()
+    })
 }
 
 // EDIT BIBLIOTECA
@@ -924,17 +979,23 @@ function editBiblioteca(id) {
         let editLat = document.getElementById("editLat");
         let editLong = document.getElementById("editLong");
 
-        // CHANGE VALUE
-        for (let i = 0; i < arrayBibliotecas.length; i++) {
-            if (arrayBibliotecas[i]._libraryId == id) {
-                arrayBibliotecas[i]._location = editLocation.value;
-                arrayBibliotecas[i]._adress = editAdress.value;
-                arrayBibliotecas[i]._capacity = editCapacity.value;
-                arrayBibliotecas[i]._coordenatesLat = editLat.value;
-                arrayBibliotecas[i]._coordenatesLong = editLong.value;
-                localStorage.bibliotecaStorage = JSON.stringify(arrayBibliotecas);
-            }
+        let newLibrary = {
+
+            location: editLocation.value,
+            adress: editAdress.value,
+            coordinatesLong: editLong.value,
+            coordinatesLat: editLat.value,
+            capacity: editCapacity.value,
         }
+
+        // CHANGE VALUE
+        putLibrary(newLibrary, id).then(result => {
+            //library = result.data;
+
+            carregarLibraries()
+        })
+
+        event.preventDefault();
     })
 }
 
@@ -1308,63 +1369,63 @@ function loadRecentBooks() {
         books = result.data;
         //refreshTableBooks()
         console.log(books)
-    
-    sortByDonationDateDown();
-    let strHtmlCard = "";
-    strHtmlCard += `<div class="row row-fluid">`;
-    let count = 0;
-    for (var i = 0; i < 6; i++) {
 
-        strHtmlCard += "<div class='col-md-2 mb-5'>" +
-            "<div id='" + books[i]._id + "' class='bookItem card'>";
+        sortByDonationDateDown();
+        let strHtmlCard = "";
+        strHtmlCard += `<div class="row row-fluid">`;
+        let count = 0;
+        for (var i = 0; i < 6; i++) {
 
-        if (books[i].cover) {
-            strHtmlCard += "<img class='card-img-top' src='" + books[i].cover + "' alt='image cap'>";
+            strHtmlCard += "<div class='col-md-2 mb-5'>" +
+                "<div id='" + books[i]._id + "' class='bookItem card'>";
+
+            if (books[i].cover) {
+                strHtmlCard += "<img class='card-img-top' src='" + books[i].cover + "' alt='image cap'>";
+            }
+            else {
+                strHtmlCard += "<img class='card-img-top' src='images/bookCoverNotAvailable.jpg' alt='image cap'>";
+            }
+
+            strHtmlCard += "<div class='card-body flex-column'>" +
+                "<h6 class='titles card-title'>" + books[i].title + "</h6>" +
+                "<p class='authors card-text'>" + books[i].author + "</p>" +
+                "</div>" +
+                "<div class='card-footer align-center'>" + "<p class='score card-text'>";
+            if (books[i].scores.length != 1) {
+                strHtmlCard += starRating(books[i].scores);
+            }
+            else {
+                strHtmlCard += "<span class='fa fa-star'></span>" +
+                    "<span class='fa fa-star'></span>" +
+                    "<span class='fa fa-star'></span>" +
+                    "<span class='fa fa-star'></span>" +
+                    "<span class='fa fa-star'></span>";
+            }
+            strHtmlCard += "</p>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
         }
-        else {
-            strHtmlCard += "<img class='card-img-top' src='images/bookCoverNotAvailable.jpg' alt='image cap'>";
+        strHtmlCard += "</div>";
+        let recentBooksDiv = document.getElementById("recentBooksDiv");
+        recentBooksDiv.innerHTML = strHtmlCard;
+
+        // ADD EVENT LISTENER TO TRIGGER BOOK PAGE WITH TARGET BOOK CONTENT
+        let bookItem = document.getElementsByClassName("bookItem");
+        for (let i = 0; i < bookItem.length; i++) {
+            bookItem[i].addEventListener("click", function () {
+                // GET ID VALUE
+                let bookItemId = bookItem[i].getAttribute("id");
+
+                setStorageValuesBook(bookItemId);
+                console.log("array" + books)
+                getBookPageValues();
+                window.location = "bookPage.html";
+
+            })
         }
-
-        strHtmlCard += "<div class='card-body flex-column'>" +
-            "<h6 class='titles card-title'>" + books[i].title + "</h6>" +
-            "<p class='authors card-text'>" + books[i].author + "</p>" +
-            "</div>" +
-            "<div class='card-footer align-center'>" + "<p class='score card-text'>";
-        if (books[i].scores.length != 1) {
-            strHtmlCard += starRating(books[i].scores);
-        }
-        else {
-            strHtmlCard += "<span class='fa fa-star'></span>" +
-                "<span class='fa fa-star'></span>" +
-                "<span class='fa fa-star'></span>" +
-                "<span class='fa fa-star'></span>" +
-                "<span class='fa fa-star'></span>";
-        }
-        strHtmlCard += "</p>" +
-            "</div>" +
-            "</div>" +
-            "</div>";
-
-    }
-    strHtmlCard += "</div>";
-    let recentBooksDiv = document.getElementById("recentBooksDiv");
-    recentBooksDiv.innerHTML = strHtmlCard;
-
-    // ADD EVENT LISTENER TO TRIGGER BOOK PAGE WITH TARGET BOOK CONTENT
-    let bookItem = document.getElementsByClassName("bookItem");
-    for (let i = 0; i < bookItem.length; i++) {
-        bookItem[i].addEventListener("click", function () {
-            // GET ID VALUE
-            let bookItemId = bookItem[i].getAttribute("id");
-
-            setStorageValuesBook(bookItemId);
-            console.log("array"+books)
-            getBookPageValues();
-            window.location = "bookPage.html";
-
-        })
-    }
-})
+    })
 }
 
 
@@ -1374,7 +1435,7 @@ function setStorageValuesBook(id) {
     for (let i = 0; i < books.length; i++) {
         if (id == books[i]._id) {
             localStorage.bookPageValues = JSON.stringify(books[i]);
-            pageBookValues=books[i];
+            pageBookValues = books[i];
             console.log(pageBookValues)
             //window.location = "bookPage.html";
         }
@@ -1681,6 +1742,39 @@ async function postBook(data) {
 
 }
 
+//POST Tag
+async function postTag(data) {
+    try {
+        return await axios.post("https://edmilson-edmilson0.c9users.io/tags", data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+//POST Category
+async function postCategory(data) {
+    try {
+        return await axios.post("https://edmilson-edmilson0.c9users.io/categories", data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+//POST Library
+async function postLibrary(data) {
+    try {
+        return await axios.post("https://edmilson-edmilson0.c9users.io/libraries", data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
 
 
 ///PUTS
@@ -1689,6 +1783,48 @@ async function putBook(data, id) {
         url = "https://edmilson-edmilson0.c9users.io/books/" + id;
         console.log(id)
         return await axios.put(url, { condition: data })
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+async function putTag(data, id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/tags/" + id;
+        console.log(id)
+        return await axios.put(url, { tagName: data })
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+async function putCategory(data, id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/categories/" + id;
+        console.log(id)
+        return await axios.put(url, { nameCategory: data })
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+async function putLibrary(data, id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/libraries/" + id;
+        console.log(id)
+        return await axios.put(url, {
+             location: data.location,
+             adress: data.adress,
+             coordinatesLong: data.coordinatesLong,
+             coordinatesLat: data.coordinatesLat,
+             capacity: data.capacity
+            })
     }
     catch (err) {
         console.log(err)
@@ -1720,3 +1856,40 @@ async function delUser(id) {
     }
 
 }
+
+async function delTag(id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/tags/" + id;
+        console.log(id)
+        return await axios.delete(url)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+async function delCategory(id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/categories/" + id;
+        console.log(id)
+        return await axios.delete(url)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+async function delLibrary(id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/libraries/" + id;
+        console.log(id)
+        return await axios.delete(url)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+

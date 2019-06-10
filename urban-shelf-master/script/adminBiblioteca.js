@@ -2,7 +2,14 @@ window.onload = function () {
     loginUser();
     allowLogout();
 
-    refreshStoredBibliotecas();
+    // INITIATE FUNCTIONS
+    getLibraries().then(result => {
+        libraries = result.data;
+        refreshTableBibliotecas()
+        console.log(libraries)
+    })
+
+    //refreshStoredBibliotecas();
 
     // VARIABLES
     let addBiblioteca = document.getElementById("addBiblioteca");
@@ -55,10 +62,27 @@ window.onload = function () {
             bibliotecaCapacity.value = "";
             bibliotecaLat.value = "";
             bibliotecaLong.value = "";
-            // STORE NEWBIBLIOTECA
-            localStorage.bibliotecaStorage = JSON.stringify(arrayBibliotecas);
-            refreshStoredBibliotecas();
 
+            // STORE NEWBIBLIOTECA
+            // localStorage.bibliotecaStorage = JSON.stringify(arrayBibliotecas);
+            // refreshStoredBibliotecas();
+
+            let newLibraryData = {
+
+                location: newBiblioteca._location,
+                adress: newBiblioteca._adress,
+                coordinatesLong: newBiblioteca._coordenatesLong,
+                coordinatesLat: newBiblioteca._coordenatesLat,
+                capacity: newBiblioteca._capacity,
+            }
+
+            postLibrary(newLibraryData).then(result => {
+                library = result.data;
+                carregarLibraries()
+            })
+            //.then(refreshTableBooks().then(event.preventDefault())))
+            event.preventDefault()
+            addBiblioteca.reset() //.then(console.log("reset"))
         }
         else {
             alert(errorMsg);
