@@ -4,7 +4,16 @@ window.onload = function () {
     getStoredBooks();
     loginUser();
     allowLogout();
-    feedBookInfo();
+    getTags().then(result => {
+        tags = result.data;
+        getCategories().then(result => {
+            categories = result.data;
+            feedBookInfo()
+            console.log(categories)
+        })
+        console.log(tags)
+    })
+
     getStoredComments();
     // TEST
     // let requisitionTest = new Requisition(1, 3)
@@ -18,7 +27,11 @@ window.onload = function () {
     getStoredBibliotecas();
     getStoredNotifications();
     showUserNotifications();
-
+    
+       
+    
+    
+    
 
 
     // VARS
@@ -26,7 +39,7 @@ window.onload = function () {
     let alreadyRequestedHeader = document.getElementById("alreadyRequestedHeader");
     let notificationRequestBtn = document.getElementById("notificationRequestBtn");
 
-    // CHECK IF BOOK IS ALREADY REQUESTED
+    /*// CHECK IF BOOK IS ALREADY REQUESTED
     for (let i = 0; i < arrayRequisitions.length; i++) {
         if (arrayRequisitions[i]._bookId == pageBookValues._bookId) {
             alreadyRequestedHeader.style.display = "block";
@@ -34,7 +47,7 @@ window.onload = function () {
             notificationRequestBtn.style.display = "block";
         }
 
-    }
+    }*/
 
 
 
@@ -62,6 +75,12 @@ window.onload = function () {
         let bookTags = document.getElementById("bookTags");
         let bookSynopsis = document.getElementById("bookSynopsis");
 
+       /* var d = pageBookValues.releaseDate
+            let days=d.getUTCDays(); // Hours
+            let months=d.getUTCMonths();
+            let years=d.getUTCYears();
+            let RealeseDate=days+"/"+months+"/"+years;*/
+
 
 
 
@@ -80,19 +99,19 @@ window.onload = function () {
         bookTitle.innerHTML = pageBookValues.title;
         bookCondition.innerHTML = "Estado: " + pageBookValues.condition;
         bookAuthors.innerHTML = "de " + pageBookValues.author;
-        bookReleaseDate.innerHTML = "em " + pageBookValues.releaseDate;
+        bookReleaseDate.innerHTML = "em " + pageBookValues.releaseDate.slice(0, 10);
         bookPublisher.innerHTML = pageBookValues.publisher;
         bookPagesNumber.innerHTML = "Nº Páginas: " + pageBookValues.numberPages;
-        bookDonationDate.innerHTML = "Doado em: " + pageBookValues.donationDate;
-        for (let i = 0; i < arrayCategorias.length; i++) {
-            if (arrayCategorias[i]._categoryId == pageBookValues._category) {
-                bookCategory.innerHTML = "Categoria: " + arrayCategorias[i]._nameCategory;
+        bookDonationDate.innerHTML = "Doado em: " + pageBookValues.donationDate.slice(0, 10);
+        for (let i = 0; i < categories.length; i++) {
+            if (categories[i]._id == pageBookValues.categoryId) {
+                bookCategory.innerHTML = "Categoria: " + categories[i].nameCategory;
             }
         }
         bookTags.innerHTML = "Tags: " + getTagNames();
 
 
-        bookSynopsis.innerHTML = pageBookValues._synopsis;
+        bookSynopsis.innerHTML = pageBookValues.synopsis;
 
     }
 
@@ -243,14 +262,14 @@ window.onload = function () {
     // GET TAG NAMES FROM ID
     function getTagNames() {
         let strHtml = "";
-        for (let i = 0; i < arrayTags.length; i++) {
-            for (let j = 0; j < pageBookValues._tags.length; j++) {
-                if (arrayTags[i]._tagId == pageBookValues._tags[j]) {
+        for (let i = 0; i < tags.length; i++) {
+            for (let j = 0; j < pageBookValues.tags.length; j++) {
+                if (tags[i]._id == pageBookValues.tags[j]) {
                     if (strHtml.length == 0) {
-                        strHtml += arrayTags[i]._nameTag;
+                        strHtml += tags[i].tagName;
                     }
                     else {
-                        strHtml += ", " + arrayTags[i]._nameTag;
+                        strHtml += ", " + tags[i].tagName;
                     }
 
                 }

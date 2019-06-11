@@ -7,7 +7,7 @@ let arrayBibliotecas = [];
 let arrayRequisitions = [];
 let arrayComments = [];
 let arrayNotifications = [];
-let pageBookValues="pila";
+let pageBookValues;
 let login;
 
 

@@ -1316,6 +1316,10 @@ function loadOperatorPage() {
 
 // LOAD TOP BOOKS
 function loadTopBooks() {
+    getBooks().then(result => {
+        books = result.data;
+        //refreshTableBooks()
+        console.log(books)
     sortByScoreDown();
     let strHtmlCard = "";
     strHtmlCard += `<div class="row row-fluid">`;
@@ -1323,22 +1327,22 @@ function loadTopBooks() {
     for (var i = 0; i < 6; i++) {
 
         strHtmlCard += "<div class='col-md-2 mb-5'>" +
-            "<div id='" + arrayLivros[i]._bookId + "' class='bookItem card'>";
+            "<div id='" + books[i]._id + "' class='bookItem card'>";
 
-        if (arrayLivros[i]._cover) {
-            strHtmlCard += "<img class='card-img-top' src='" + arrayLivros[i]._cover + "' alt='image cap'>";
+        if (books[i].cover) {
+            strHtmlCard += "<img class='card-img-top' src='" + books[i].cover + "' alt='image cap'>";
         }
         else {
             strHtmlCard += "<img class='card-img-top' src='images/bookCoverNotAvailable.jpg' alt='image cap'>";
         }
 
         strHtmlCard += "<div class='card-body flex-column'>" +
-            "<h6 class='titles card-title'>" + arrayLivros[i]._title + "</h6>" +
-            "<p class='authors card-text'>" + arrayLivros[i]._autor + "</p>" +
+            "<h6 class='titles card-title'>" + books[i].title + "</h6>" +
+            "<p class='authors card-text'>" + books[i].author + "</p>" +
             "</div>" +
             "<div class='card-footer align-center'>" + "<p class='score card-text'>";
-        if (arrayLivros[i]._scores.length != 1) {
-            strHtmlCard += starRating(arrayLivros[i]._scores);
+        if (books[i].scores.length != 1) {
+            strHtmlCard += starRating(books[i].scores);
         }
         else {
             strHtmlCard += "<span class='fa fa-star'></span>" +
@@ -1357,7 +1361,7 @@ function loadTopBooks() {
     let topBooksDiv = document.getElementById("topBooksDiv");
     topBooksDiv.innerHTML = strHtmlCard;
 
-
+    })
 
 }
 
@@ -1436,6 +1440,9 @@ function setStorageValuesBook(id) {
         if (id == books[i]._id) {
             localStorage.bookPageValues = JSON.stringify(books[i]);
             pageBookValues = books[i];
+            
+            
+
             console.log(pageBookValues)
             //window.location = "bookPage.html";
         }
@@ -1455,42 +1462,46 @@ function getBookPageValues() {
 // SORT BOOKS
 // SORT BY SCORE BY MOST SCORED
 function sortByScoreDown() {
-    arrayLivros.sort((a, b) => fullscoreForSort(b._scores) - fullscoreForSort(a._scores));
+    books.sort((a, b) => fullscoreForSort(b.scores) - fullscoreForSort(a.scores));
 }
 
 // SORT BY SCORE BY LEAST SCORED
 function sortByScoreUp() {
-    arrayLivros.sort((a, b) => fullscoreForSort(a._scores) - fullscoreForSort(b._scores));
+    books.sort((a, b) => fullscoreForSort(a.scores) - fullscoreForSort(b.scores));
 }
 
 // SORT BY RELEASE DATE BY MOST RECENT
 function sortByReleaseDateDown() {
-    arrayLivros.sort((a, b) => Date.parse(b._releaseDate) - Date.parse(a._releaseDate));
+    books.sort((a, b) => Date.parse(b.releaseDate.toString()) - Date.parse(a.releaseDate.toString()));
 }
 
 // SORT BY RELEASE DATE BY OLDEST
 function sortByReleaseDateUp() {
-    arrayLivros.sort((a, b) => Date.parse(a._releaseDate) - Date.parse(b._releaseDate));
+    books.sort((a, b) => Date.parse(a.releaseDate) - Date.parse(b.releaseDate));
 }
 
 // SORT BY DONATION DATE BY MOST RECENT | DONT KNOW IF NEEDED
 function sortByDonationDateDown() {
-    arrayLivros.sort((a, b) => Date.parse(b._releaseDate) - Date.parse(a._releaseDate));
+    books.sort((a, b) => Date.parse(b.donationDate) - Date.parse(a.donationDate));
+    console.log(books)
 }
 
 // SORT BY DONATION DATE BY OLDEST | DONT KNOW IF NEEDED
 function sortByDonationDateUp() {
-    arrayLivros.sort((a, b) => Date.parse(a._releaseDate) - Date.parse(b._releaseDate));
+    books.sort((a, b) => Date.parse(a.releaseDate) - Date.parse(b.releaseDate));
 }
 
 // CALCULATE FULLSCORE
 function fullscoreForSort(givenScores) {
-    let total = givenScores.length - 1; // -1 BECAUSE BOOK._SCORES STARTS WITH AN ARRAY WITH 0 AS FIRST VALUE FOR SIMPLIFICATION
-    let score = givenScores.reduce((total, add) => total + add);
-    if (total == 0) {
+    console.log(givenScores)
+    let  total= givenScores.length - 1; // -1 BECAUSE BOOK._SCORES STARTS WITH AN ARRAY WITH 0 AS FIRST VALUE FOR SIMPLIFICATION
+    let score;
+
+    if (total <= 0) {
         return 0;
     }
     else {
+        score= givenScores.reduce((total, add) => total + add);
         return score / total;
     }
 }
