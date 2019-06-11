@@ -8,7 +8,9 @@ window.onload = function () {
         tags = result.data;
         getCategories().then(result => {
             categories = result.data;
+          
             feedBookInfo()
+       
             console.log(categories)
         })
         console.log(tags)
@@ -52,7 +54,15 @@ window.onload = function () {
 
 
     let commentSection = document.getElementById("commentSection");
-    commentSection.innerHTML = feedCommentSection();
+   getComments().then(result => {
+        comments = result.data;
+        console.log(comments)
+        getUsers().then(result => {
+            users = result.data;
+            console.log(users)
+            commentSection.innerHTML =feedCommentSection();
+        })
+    })
 
     // FUNCTION TO REPLACE VALUES IN BOOK PAGE
     function feedBookInfo() {
@@ -283,25 +293,25 @@ window.onload = function () {
     // DISPLAY COMMENTS FUNCTION
     function feedCommentSection() {
         let strHtml = "";
-        for (let i = 0; i < arrayComments.length; i++) {
-            if (pageBookValues._bookId == arrayComments[i]._bookId) {
+        for (let i = 0; i < comments.length; i++) {
+            if (pageBookValues._id == comments[i].bookId) {
                 strHtml += "<div class='row row-fluid mb-5'>" +
                     "<div class='userCommentsPhoto col-md-6 mb-3'>";
 
-                for (let j = 0; j < arrayUsers.length; j++) {
-                    if (arrayUsers[j]._userId == arrayComments[i]._userId) {
-                        if (arrayUsers[j]._photo) {
-                            strHtml += "<img class='userCommentImg img img-fluid mr-2' alt='' src='" + arrayUsers[j]._photo + "'/><span>" + arrayUsers[j]._username + "</span>";
+                for (let j = 0; j < users.length; j++) {
+                    if (users[j]._id == comments[i].userId) {
+                        if (users[j].photo) {
+                            strHtml += "<img class='userCommentImg img img-fluid mr-2' alt='' src='" + users[j].photo + "'/><span>" + users[j].username + "</span>";
                         }
                         else {
-                            strHtml += "<img class='userCommentImg img img-fluid mr-2' alt='' src='images/userIcon(white).png'/><span>" + arrayUsers[j]._username + "</span>";
+                            strHtml += "<img class='userCommentImg img img-fluid mr-2' alt='' src='images/userIcon(white).png'/><span>" + users[j].username + "</span>";
                         }
                     }
                 }
 
                 strHtml += "</div>" +
                     "<div class='userCommentsTxt col-md-10 offset-md-1'>" +
-                    "<p>" + arrayComments[i]._txtComment + "</p>" +
+                    "<p>" + comments[i].txtComment + "</p>" +
                     "</div>" +
                     "</div>";
 
@@ -319,14 +329,19 @@ window.onload = function () {
     let commentForm = document.getElementById("commentForm");
     commentForm.addEventListener("submit", function (event) {
 
-
+        getComments().then(result => {
+            comments = result.data;
+            //console.log(comments)
+            getUsers().then(result => {
+                users = result.data;
+                //console.log(users)
         // VARS
         let inputComment = document.getElementById("inputComment");
         let commentExists = false;
 
         // CHECK IF COMMENT EXISTS
-        for (let i = 0; i < arrayComments.length; i++) {
-            if (login.id == arrayComments[i]._userId && arrayComments[i]._bookId == pageBookValues._bookId) {
+        for (let i = 0; i < comments.length; i++) {
+            if (login.id == comments[i].userId && arrayComments[i].bookId == pageBookValues.bookId) {
                 commentExists = true;
             }
 
@@ -338,22 +353,33 @@ window.onload = function () {
         }
         else {
             let newComment = new Comment(inputComment.value, login.id, pageBookValues._bookId);
-            arrayComments.push(newComment);
-            localStorage.commentStorage = JSON.stringify(arrayComments);
-            getStoredComments();
-
+            let newCommentPost = { bookId:pageBookValues._id,
+            userId:login.id,
+            txtComment:inputComment.value,
+            commentDate:new Date()}
+            //arrayComments.push(newComment);
+           
+            postBook(newCommentPost).then(result => {
+                comment = result.data;
+            //localStorage.commentStorage = JSON.stringify(arrayComments);
+            //getStoredComments();
+            event.preventDefault()
             // PUSH SCORE TO SCORES PROPERTY
-            for (let i = 0; i < arrayLivros.length; i++) {
-                if (pageBookValues._bookId == arrayLivros[i]._bookId) {
-                    arrayLivros[i]._scores.push(parseInt(inputScore.value));
-                    localStorage.bookStorage = JSON.stringify(arrayLivros);
-                    getStoredBooks();
+            for (let i = 0; i < books.length; i++) {
+                if (pageBookValues._id == books[i]._id) {
+                    //books[i].scores.push(parseInt(inputScore.value));
+                    //localStorage.bookStorage = JSON.stringify(arrayLivros);
+                   // getStoredBooks();
+                   // event.preventDefault()
                 }
 
             }
+            //event.preventDefault()
+        })
         }
 
-
+            })
+        })
     })
 
 

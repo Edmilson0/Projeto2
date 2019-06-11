@@ -1,4 +1,5 @@
 let books = [];
+let comments=[];
 //let pageBookValues;
 
 // // TEST SCRIPT
@@ -1725,6 +1726,19 @@ async function getBooks() {
     }
 }
 
+///get comments
+async function getComments() {
+
+    try {
+        return await axios.get("https://edmilson-edmilson0.c9users.io/comments")
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+
+
 
 
 
@@ -1779,6 +1793,16 @@ async function postCategory(data) {
 async function postLibrary(data) {
     try {
         return await axios.post("https://edmilson-edmilson0.c9users.io/libraries", data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+//POST comment
+async function postLibrary(data) {
+    try {
+        return await axios.post("https://edmilson-edmilson0.c9users.io/comments", data)
     }
     catch (err) {
         console.log(err)
