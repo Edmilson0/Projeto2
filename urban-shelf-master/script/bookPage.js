@@ -382,11 +382,11 @@ window.onload = function () {
         })
     })
 
-    function carregarBooks(){
+    /*function carregarBooks(){
         getBooks().then(result => {
             books = result.data;
             refreshTableBooks()
-        console.log(books)})
+        console.log(books)})*/
 
     // REQUISITION
     requisitionButton.addEventListener("click", function (event) {
@@ -466,4 +466,4 @@ window.onload = function () {
 
 }
 
-}
+
