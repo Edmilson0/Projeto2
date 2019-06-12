@@ -382,7 +382,11 @@ window.onload = function () {
         })
     })
 
-
+    function carregarBooks(){
+        getBooks().then(result => {
+            books = result.data;
+            refreshTableBooks()
+        console.log(books)})
 
     // REQUISITION
     requisitionButton.addEventListener("click", function (event) {
