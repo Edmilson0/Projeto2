@@ -1,19 +1,28 @@
 window.onload = function () {
-    console.log("bookpagevalue:"+pageBookValues)
+    console.log("bookpagevalue:" + pageBookValues)
     // INITIATE FUNCTIONS
     getStoredBooks();
     loginUser();
     allowLogout();
+    //GET TAGS
     getTags().then(result => {
         tags = result.data;
         getCategories().then(result => {
+            //GET CATEGORIES
             categories = result.data;
-          
+
             feedBookInfo()
-       
+
             console.log(categories)
         })
         console.log(tags)
+    })
+
+    //GET REQUISITIONS
+    getRequisitions().then(result => {
+        requisitions = result.data;
+    
+        console.log("requisitons: "+requisitions)
     })
 
     getStoredComments();
@@ -29,11 +38,11 @@ window.onload = function () {
     getStoredBibliotecas();
     getStoredNotifications();
     showUserNotifications();
-    
-       
-    
-    
-    
+
+
+
+
+
 
 
     // VARS
@@ -54,13 +63,13 @@ window.onload = function () {
 
 
     let commentSection = document.getElementById("commentSection");
-   getComments().then(result => {
+    getComments().then(result => {
         comments = result.data;
         console.log(comments)
         getUsers().then(result => {
             users = result.data;
             console.log(users)
-            commentSection.innerHTML =feedCommentSection();
+            commentSection.innerHTML = feedCommentSection();
         })
     })
 
@@ -85,11 +94,11 @@ window.onload = function () {
         let bookTags = document.getElementById("bookTags");
         let bookSynopsis = document.getElementById("bookSynopsis");
 
-       /* var d = pageBookValues.releaseDate
-            let days=d.getUTCDays(); // Hours
-            let months=d.getUTCMonths();
-            let years=d.getUTCYears();
-            let RealeseDate=days+"/"+months+"/"+years;*/
+        /* var d = pageBookValues.releaseDate
+             let days=d.getUTCDays(); // Hours
+             let months=d.getUTCMonths();
+             let years=d.getUTCYears();
+             let RealeseDate=days+"/"+months+"/"+years;*/
 
 
 
@@ -335,58 +344,56 @@ window.onload = function () {
             getUsers().then(result => {
                 users = result.data;
                 //console.log(users)
-        // VARS
-        let inputComment = document.getElementById("inputComment");
-        let commentExists = false;
+                // VARS
+                let inputComment = document.getElementById("inputComment");
+                let commentExists = false;
 
-        // CHECK IF COMMENT EXISTS
-        for (let i = 0; i < comments.length; i++) {
-            if (login.id == comments[i].userId && arrayComments[i].bookId == pageBookValues.bookId) {
-                commentExists = true;
-            }
+                // CHECK IF COMMENT EXISTS
+                for (let i = 0; i < comments.length; i++) {
+                    if (login.id == comments[i].userId && arrayComments[i].bookId == pageBookValues.bookId) {
+                        commentExists = true;
+                    }
 
-        }
-
-        // CREATE NEW COMMENT IF COMMENTEXISTS == FALSE
-        if (commentExists) {
-            alert("Já comentou este livro!");
-        }
-        else {
-            let newComment = new Comment(inputComment.value, login.id, pageBookValues._bookId);
-            let newCommentPost = { bookId:pageBookValues._id,
-            userId:login.id,
-            txtComment:inputComment.value,
-            commentDate:new Date()}
-            //arrayComments.push(newComment);
-           
-            postBook(newCommentPost).then(result => {
-                comment = result.data;
-            //localStorage.commentStorage = JSON.stringify(arrayComments);
-            //getStoredComments();
-            event.preventDefault()
-            // PUSH SCORE TO SCORES PROPERTY
-            for (let i = 0; i < books.length; i++) {
-                if (pageBookValues._id == books[i]._id) {
-                    //books[i].scores.push(parseInt(inputScore.value));
-                    //localStorage.bookStorage = JSON.stringify(arrayLivros);
-                   // getStoredBooks();
-                   // event.preventDefault()
                 }
 
-            }
-            //event.preventDefault()
-        })
-        }
+                // CREATE NEW COMMENT IF COMMENTEXISTS == FALSE
+                if (commentExists) {
+                    alert("Já comentou este livro!");
+                }
+                else {
+                    let newComment = new Comment(inputComment.value, login.id, pageBookValues._bookId);
+                    let newCommentPost = {
+                        bookId: pageBookValues._id,
+                        userId: login.id,
+                        txtComment: inputComment.value,
+                        commentDate: new Date()
+                    }
+                    //arrayComments.push(newComment);
+
+                    postBook(newCommentPost).then(result => {
+                        comment = result.data;
+                        //localStorage.commentStorage = JSON.stringify(arrayComments);
+                        //getStoredComments();
+                        event.preventDefault()
+                        // PUSH SCORE TO SCORES PROPERTY
+                        for (let i = 0; i < books.length; i++) {
+                            if (pageBookValues._id == books[i]._id) {
+                                //books[i].scores.push(parseInt(inputScore.value));
+                                //localStorage.bookStorage = JSON.stringify(arrayLivros);
+                                // getStoredBooks();
+                                // event.preventDefault()
+                            }
+
+                        }
+                        //event.preventDefault()
+                    })
+                }
 
             })
         })
     })
 
-    /*function carregarBooks(){
-        getBooks().then(result => {
-            books = result.data;
-            refreshTableBooks()
-        console.log(books)})*/
+
 
     // REQUISITION
     requisitionButton.addEventListener("click", function (event) {

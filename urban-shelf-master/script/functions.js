@@ -1,5 +1,5 @@
 let books = [];
-let comments=[];
+let comments = [];
 //let pageBookValues;
 
 // // TEST SCRIPT
@@ -1321,46 +1321,46 @@ function loadTopBooks() {
         books = result.data;
         //refreshTableBooks()
         console.log(books)
-    sortByScoreDown();
-    let strHtmlCard = "";
-    strHtmlCard += `<div class="row row-fluid">`;
-    let count = 0;
-    for (var i = 0; i < 6; i++) {
+        sortByScoreDown();
+        let strHtmlCard = "";
+        strHtmlCard += `<div class="row row-fluid">`;
+        let count = 0;
+        for (var i = 0; i < 6; i++) {
 
-        strHtmlCard += "<div class='col-md-2 mb-5'>" +
-            "<div id='" + books[i]._id + "' class='bookItem card'>";
+            strHtmlCard += "<div class='col-md-2 mb-5'>" +
+                "<div id='" + books[i]._id + "' class='bookItem card'>";
 
-        if (books[i].cover) {
-            strHtmlCard += "<img class='card-img-top' src='" + books[i].cover + "' alt='image cap'>";
-        }
-        else {
-            strHtmlCard += "<img class='card-img-top' src='images/bookCoverNotAvailable.jpg' alt='image cap'>";
-        }
+            if (books[i].cover) {
+                strHtmlCard += "<img class='card-img-top' src='" + books[i].cover + "' alt='image cap'>";
+            }
+            else {
+                strHtmlCard += "<img class='card-img-top' src='images/bookCoverNotAvailable.jpg' alt='image cap'>";
+            }
 
-        strHtmlCard += "<div class='card-body flex-column'>" +
-            "<h6 class='titles card-title'>" + books[i].title + "</h6>" +
-            "<p class='authors card-text'>" + books[i].author + "</p>" +
-            "</div>" +
-            "<div class='card-footer align-center'>" + "<p class='score card-text'>";
-        if (books[i].scores.length != 1) {
-            strHtmlCard += starRating(books[i].scores);
-        }
-        else {
-            strHtmlCard += "<span class='fa fa-star'></span>" +
-                "<span class='fa fa-star'></span>" +
-                "<span class='fa fa-star'></span>" +
-                "<span class='fa fa-star'></span>" +
-                "<span class='fa fa-star'></span>";
-        }
-        strHtmlCard += "</p>" +
-            "</div>" +
-            "</div>" +
-            "</div>";
+            strHtmlCard += "<div class='card-body flex-column'>" +
+                "<h6 class='titles card-title'>" + books[i].title + "</h6>" +
+                "<p class='authors card-text'>" + books[i].author + "</p>" +
+                "</div>" +
+                "<div class='card-footer align-center'>" + "<p class='score card-text'>";
+            if (books[i].scores.length != 1) {
+                strHtmlCard += starRating(books[i].scores);
+            }
+            else {
+                strHtmlCard += "<span class='fa fa-star'></span>" +
+                    "<span class='fa fa-star'></span>" +
+                    "<span class='fa fa-star'></span>" +
+                    "<span class='fa fa-star'></span>" +
+                    "<span class='fa fa-star'></span>";
+            }
+            strHtmlCard += "</p>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
 
-    }
-    strHtmlCard += "</div>";
-    let topBooksDiv = document.getElementById("topBooksDiv");
-    topBooksDiv.innerHTML = strHtmlCard;
+        }
+        strHtmlCard += "</div>";
+        let topBooksDiv = document.getElementById("topBooksDiv");
+        topBooksDiv.innerHTML = strHtmlCard;
 
     })
 
@@ -1441,8 +1441,8 @@ function setStorageValuesBook(id) {
         if (id == books[i]._id) {
             localStorage.bookPageValues = JSON.stringify(books[i]);
             pageBookValues = books[i];
-            
-            
+
+
 
             console.log(pageBookValues)
             //window.location = "bookPage.html";
@@ -1495,14 +1495,14 @@ function sortByDonationDateUp() {
 // CALCULATE FULLSCORE
 function fullscoreForSort(givenScores) {
     console.log(givenScores)
-    let  total= givenScores.length - 1; // -1 BECAUSE BOOK._SCORES STARTS WITH AN ARRAY WITH 0 AS FIRST VALUE FOR SIMPLIFICATION
+    let total = givenScores.length - 1; // -1 BECAUSE BOOK._SCORES STARTS WITH AN ARRAY WITH 0 AS FIRST VALUE FOR SIMPLIFICATION
     let score;
 
     if (total <= 0) {
         return 0;
     }
     else {
-        score= givenScores.reduce((total, add) => total + add);
+        score = givenScores.reduce((total, add) => total + add);
         return score / total;
     }
 }
@@ -1737,6 +1737,16 @@ async function getComments() {
     }
 }
 
+///get comments
+async function getRequisitions() {
+
+    try {
+        return await axios.get("https://edmilson-edmilson0.c9users.io/requisitions")
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 
 
 
@@ -1854,12 +1864,12 @@ async function putLibrary(data, id) {
         url = "https://edmilson-edmilson0.c9users.io/libraries/" + id;
         console.log(id)
         return await axios.put(url, {
-             location: data.location,
-             adress: data.adress,
-             coordinatesLong: data.coordinatesLong,
-             coordinatesLat: data.coordinatesLat,
-             capacity: data.capacity
-            })
+            location: data.location,
+            adress: data.adress,
+            coordinatesLong: data.coordinatesLong,
+            coordinatesLat: data.coordinatesLat,
+            capacity: data.capacity
+        })
     }
     catch (err) {
         console.log(err)
