@@ -1100,14 +1100,14 @@ function setTokenStorage(dataToken) {
 ///obter token do storage e 
 function getTokenStorage() {
     if (localStorage.loginToken) {
-        console.log(token)
+        //console.log(token)
         return token = JSON.parse(localStorage.loginToken);
         
     }
 }
 /////
-function getTokenData(token) {
-    if (localStorage.loginToken) {
+/*function getTokenData(token) {
+    
             getLoggedUser(token).then(result => {
                 console.log(loggedUserToken)
                 loggedUserToken = result.data;
@@ -1120,7 +1120,7 @@ function getTokenData(token) {
 
        
     
-}
+}*/
 //altearações
 function changesLogedUser(loggedUserToken){
     console.log(loggedUserToken)
@@ -1142,14 +1142,25 @@ function changesLogedUser(loggedUserToken){
         }
     }
 }
-function loginUser() {
-    checkLoginStorage();
+function loginUser() {  getLoggedUser(getTokenStorage()).then(result => {
+        
+    loggedUserToken = result.data;
+    console.log(loggedUserToken)
+    changesLogedUser(loggedUserToken)})
+    //checkLoginStorage();
     //if(token!=""){
     //}
-    getTokenStorage()
+    //getTokenStorage()
     //getTokenData(token)
-    console.log("d")
-    getTokenData(getTokenStorage())
+    //console.log("d")
+    /*getLoggedUser(getTokenStorage()).then(result => {
+        console.log(loggedUserToken)
+        loggedUserToken = result.data;
+        changesLogedUser(loggedUserToken)
+        
+
+    })
+   
     /*if (login != undefined) {
         if (login.typeUser == 0) {
             console.log("s")
@@ -1862,6 +1873,17 @@ async function postUser(data) {
 async function postBook(data) {
     try {
         return await axios.post("https://edmilson-edmilson0.c9users.io/books", data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+    
+}
+//post comment
+async function postComment(data) {
+    try {
+        return await axios.post("https://edmilson-edmilson0.c9users.io/comments", data)
     }
     catch (err) {
         console.log(err)

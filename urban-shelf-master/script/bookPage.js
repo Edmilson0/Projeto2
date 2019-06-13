@@ -1,10 +1,90 @@
 window.onload = function () {
-    console.log("bookpagevalue:" + pageBookValues)
-    // INITIATE FUNCTIONS
-    getStoredBooks();
+    //console.log("bookpagevalue:" + pageBookValues)
+    // INITIATE FUNCTIONS   
+    getLoggedUser(getTokenStorage()).then(result => {
+        
+        loggedUserToken = result.data;
+        console.log(loggedUserToken)
+        changesLogedUser(loggedUserToken)
+        showUserNotifications();
+
+            // ADD COMMENT
+    let commentForm = document.getElementById("commentForm");
+    commentForm.addEventListener("submit", function (event) {
+        event.preventDefault()
+        getComments().then(result => {
+            comments = result.data;
+            //console.log(comments)
+            getUsers().then(result => {
+                users = result.data;
+                //console.log(users)
+                // VARS
+                let inputComment = document.getElementById("inputComment");
+                let commentExists = false;
+
+                // CHECK IF COMMENT EXISTS
+                for (let i = 0; i < comments.length; i++) {
+                    if (loggedUserToken._id == comments[i].userId && arrayComments[i].bookId == pageBookValues.bookId) {
+                        commentExists = true;
+                    }
+
+                }
+
+                // CREATE NEW COMMENT IF COMMENTEXISTS == FALSE
+                if (commentExists) {
+                    alert("Já comentou este livro!");
+                }
+                else {
+                    let newComment = new Comment(inputComment.value, loggedUserToken._id, pageBookValues._bookId);
+                    let newCommentPost = {
+                        bookId: pageBookValues._id,
+                        userId: loggedUserToken._id,
+                        txtComment: inputComment.value,
+                        commentDate: new Date()
+                    }
+                    //arrayComments.push(newComment);
+                    console.log(newCommentPost)
+                    postComment(newCommentPost).then(result => {
+                        comment = result.data;
+                        console.log(comment)
+                        getComments().then(result => {
+                            comments = result.data;
+                            commentSection.innerHTML = feedCommentSection();
+                        })
+                       })
+                        //localStorage.commentStorage = JSON.stringify(arrayComments);
+                        //getStoredComments();
+                        //event.preventDefault()
+                        // PUSH SCORE TO SCORES PROPERTY
+                        for (let i = 0; i < books.length; i++) {
+                            if (pageBookValues._id == books[i]._id) {
+                                //books[i].scores.push(parseInt(inputScore.value));
+                                //localStorage.bookStorage = JSON.stringify(arrayLivros);
+                                // getStoredBooks();
+                                // event.preventDefault()
+                            }
+
+                        }
+                        
+                        //event.preventDefault()
+                    
+                }
+
+            })
+        })
+    })
+
+    })
+    
+    //getStoredBooks();
+    
     loginUser();
+  
+    
     allowLogout();
+    
     //GET TAGS
+    
     getTags().then(result => {
         tags = result.data;
         getCategories().then(result => {
@@ -37,7 +117,7 @@ window.onload = function () {
     getStoredRequisitions();
     getStoredBibliotecas();
     getStoredNotifications();
-    showUserNotifications();
+    
 
 
 
@@ -301,6 +381,7 @@ window.onload = function () {
 
     // DISPLAY COMMENTS FUNCTION
     function feedCommentSection() {
+        getBookPageValues();
         let strHtml = "";
         for (let i = 0; i < comments.length; i++) {
             if (pageBookValues._id == comments[i].bookId) {
@@ -334,64 +415,6 @@ window.onload = function () {
 
 
 
-    // ADD COMMENT
-    let commentForm = document.getElementById("commentForm");
-    commentForm.addEventListener("submit", function (event) {
-
-        getComments().then(result => {
-            comments = result.data;
-            //console.log(comments)
-            getUsers().then(result => {
-                users = result.data;
-                //console.log(users)
-                // VARS
-                let inputComment = document.getElementById("inputComment");
-                let commentExists = false;
-
-                // CHECK IF COMMENT EXISTS
-                for (let i = 0; i < comments.length; i++) {
-                    if (login.id == comments[i].userId && arrayComments[i].bookId == pageBookValues.bookId) {
-                        commentExists = true;
-                    }
-
-                }
-
-                // CREATE NEW COMMENT IF COMMENTEXISTS == FALSE
-                if (commentExists) {
-                    alert("Já comentou este livro!");
-                }
-                else {
-                    let newComment = new Comment(inputComment.value, login.id, pageBookValues._bookId);
-                    let newCommentPost = {
-                        bookId: pageBookValues._id,
-                        userId: login.id,
-                        txtComment: inputComment.value,
-                        commentDate: new Date()
-                    }
-                    //arrayComments.push(newComment);
-
-                    postBook(newCommentPost).then(result => {
-                        comment = result.data;
-                        //localStorage.commentStorage = JSON.stringify(arrayComments);
-                        //getStoredComments();
-                        event.preventDefault()
-                        // PUSH SCORE TO SCORES PROPERTY
-                        for (let i = 0; i < books.length; i++) {
-                            if (pageBookValues._id == books[i]._id) {
-                                //books[i].scores.push(parseInt(inputScore.value));
-                                //localStorage.bookStorage = JSON.stringify(arrayLivros);
-                                // getStoredBooks();
-                                // event.preventDefault()
-                            }
-
-                        }
-                        //event.preventDefault()
-                    })
-                }
-
-            })
-        })
-    })
 
 
 
