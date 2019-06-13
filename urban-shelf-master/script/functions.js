@@ -1413,7 +1413,7 @@ function loadTopBooks() {
                 "<p class='authors card-text'>" + books[i].author + "</p>" +
                 "</div>" +
                 "<div class='card-footer align-center'>" + "<p class='score card-text'>";
-            if (books[i].scores.length != 1) {
+            if (books[i].scores.length != 0) {
                 strHtmlCard += starRating(books[i].scores);
             }
             else {
@@ -1446,7 +1446,7 @@ function loadRecentBooks() {
         //refreshTableBooks()
         console.log(books)
 
-        sortByDonationDateDown();
+        sortByDonationDateDown(books);
         let strHtmlCard = "";
         strHtmlCard += `<div class="row row-fluid">`;
         let count = 0;
@@ -1566,7 +1566,7 @@ function sortByDonationDateUp() {
 // CALCULATE FULLSCORE
 function fullscoreForSort(givenScores) {
     console.log(givenScores)
-    let total = givenScores.length - 1; // -1 BECAUSE BOOK._SCORES STARTS WITH AN ARRAY WITH 0 AS FIRST VALUE FOR SIMPLIFICATION
+    let total = givenScores.length ; // -1 BECAUSE BOOK._SCORES STARTS WITH AN ARRAY WITH 0 AS FIRST VALUE FOR SIMPLIFICATION
     let score;
 
     if (total <= 0) {
@@ -1812,7 +1812,7 @@ async function getComments() {
 async function getRequisitions() {
 
     try {
-        return await axios.get("https://edmilson-edmilson0.c9users.io/requisitions")
+        return await axios.get("https://edmilson-edmilson0.c9users.io/requisition")
     }
     catch (err) {
         console.log(err)
@@ -1923,10 +1923,10 @@ async function postLibrary(data) {
     }
 
 }
-//POST comment
-async function postLibrary(data) {
+//POST requisition
+async function postRequisition(data) {
     try {
-        return await axios.post("https://edmilson-edmilson0.c9users.io/comments", data)
+        return await axios.post("https://edmilson-edmilson0.c9users.io/requisition", data)
     }
     catch (err) {
         console.log(err)
@@ -1936,12 +1936,26 @@ async function postLibrary(data) {
 
 
 
+
+
 ///PUTS
 async function putBook(data, id) {
     try {
         url = "https://edmilson-edmilson0.c9users.io/books/" + id;
         console.log(id)
         return await axios.put(url, { condition: data })
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+///editar socres livro
+async function putBookSores(data, id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/books/" + id;
+        console.log(id)
+        return await axios.put(url, { scores: data })
     }
     catch (err) {
         console.log(err)

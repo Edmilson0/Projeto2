@@ -24,7 +24,7 @@ window.onload = function () {
 
                 // CHECK IF COMMENT EXISTS
                 for (let i = 0; i < comments.length; i++) {
-                    if (loggedUserToken._id == comments[i].userId && arrayComments[i].bookId == pageBookValues.bookId) {
+                    if (loggedUserToken._id == comments[i].userId && comments[i].bookId == pageBookValues._id) {
                         commentExists = true;
                     }
 
@@ -51,20 +51,37 @@ window.onload = function () {
                             comments = result.data;
                             commentSection.innerHTML = feedCommentSection();
                         })
+                        commentForm.reset();
+                       
                        })
                         //localStorage.commentStorage = JSON.stringify(arrayComments);
                         //getStoredComments();
                         //event.preventDefault()
                         // PUSH SCORE TO SCORES PROPERTY
-                        for (let i = 0; i < books.length; i++) {
-                            if (pageBookValues._id == books[i]._id) {
+                        //for (let i = 0; i < books.length; i++) {
+                           // if (pageBookValues._id == books[i]._id) {
                                 //books[i].scores.push(parseInt(inputScore.value));
                                 //localStorage.bookStorage = JSON.stringify(arrayLivros);
                                 // getStoredBooks();
                                 // event.preventDefault()
-                            }
+                           // }
 
-                        }
+                        //}
+                        
+                        let arrayScores=pageBookValues.scores;
+                        arrayScores.push(parseInt(inputScore.value))
+                        pageBookValues.scores=arrayScores;
+                        localStorage.bookPageValues=JSON.stringify(pageBookValues);
+                        //localStorage.pageBookValues.scores=JSON.stringify(arrayScores);
+                        putBookSores(arrayScores, pageBookValues._id).then(result => {
+                            book = result.data;
+                            console.log(arrayScores)
+                            //carregarBooks()
+                            console.log(pageBookValues)
+                            //localStorage.removeItem(pageBookValues)
+                            localStorage.bookPageValues=JSON.stringify(pageBookValues);
+                            feedBookInfo()
+                        })
                         
                         //event.preventDefault()
                     
@@ -100,9 +117,17 @@ window.onload = function () {
 
     //GET REQUISITIONS
     getRequisitions().then(result => {
+        getBookPageValues()
         requisitions = result.data;
+        for (let i = 0; i < requisitions.length; i++) {
+            if (requisitions[i].bookId == pageBookValues._id) {
+                alreadyRequestedHeader.style.display = "block";
+                requisitionButton.style.display = "none";
+                notificationRequestBtn.style.display = "block";
+            }
     
-        console.log("requisitons: "+requisitions)
+        }
+        //console.log("requisitons: "+requisitions)
     })
 
     getStoredComments();
@@ -185,7 +210,7 @@ window.onload = function () {
 
 
         bookPageBookCover.src = pageBookValues.cover;
-        if (pageBookValues.scores.length != 1) {
+        if (pageBookValues.scores.length != 0) {
             bookScore.innerHTML = starRating(pageBookValues.scores);
         }
         else {
@@ -427,7 +452,7 @@ window.onload = function () {
 
 
         // CHECK IF USERTYPE != 2 (USER)
-        if (login.typeUser != 2) {
+        if (loggedUserToken.userTypeId != 2) {
             errorMsg += "Apenas utilizadores podem requisitar livros!";
         }
 
@@ -435,20 +460,25 @@ window.onload = function () {
 
         // VALIDATIONS
         // CHECK ALL ACTIVE REQUISITIONS OF LOGGED USER
-        for (let i = 0; i < arrayUsers.length; i++) {
-            if (login.id == arrayUsers[i]._userId) {
+        getRequisitions().then(result => {
+            requisitions = result.data;
+            getUsers().then(result => {
+                users = result.data;
+        for (let i = 0; i < users.length; i++) {
+            if (loggedUserToken.id == users[i]._userId) {
                 for (let j = 0; j < arrayRequisitions.length; j++) {
                     // INCREMENT REQUISITIONCOUNT || MAX == 2
-                    if (arrayUsers[i]._userId == arrayRequisitions[j]._userId) {
+                    if (users[i]._id == requisitions[j]._userId) {
                         // CHECK FOR FINES
-                        if (arrayRequisitions[j]._fine != 0) {
+                        /*if (arrayRequisitions[j]._fine != 0) {
                             hasFine = true;
-                        }
+                        }*/
                         requisitionCount++;
                     }
                 }
             }
-        }
+        }})
+    })
 
         // CHECK REQUISITIONCOUNT || MAX == 2
         if (requisitionCount >= 2) {
@@ -463,20 +493,47 @@ window.onload = function () {
             alert(errorMsg);
         }
         else {
+            getBookPageValues()
             //REGISTAR NOVA REQUISITION
-            let newRequisiton = new Requisition(pageBookValues._bookId, login.id);
-            arrayRequisitions.push(newRequisiton);
-            localStorage.requisitionStorage = JSON.stringify(arrayRequisitions);
+            let d=new Date();
+            //let dd=d.setMonth(1)
+            let newRequisiton = {
+
+                userId:loggedUserToken._id,
+                bookId:pageBookValues._id,
+                requisitionDate:d,
+                //returnDate:dd
+             
+             }
+            //arrayRequisitions.push(newRequisiton);
+            //localStorage.requisitionStorage = JSON.stringify(arrayRequisitions);
 
             //APAGAR NOTIFICAÇÃO DESTE TITULO CASO EXISTA
-            for (let i = 0; i < arrayNotifications.length; i++) {
+            /*/for (let i = 0; i < arrayNotifications.length; i++) {
                 if (arrayNotifications[i]._userId == login.id && bookTitle.innerHTML == arrayNotifications[i]._bookTitle) {
                     arrayNotifications.splice(i, 1)
                     localStorage.notificationStorage = JSON.stringify(arrayNotifications)
                 }
-            }
+            }*/
+            postRequisition(newRequisiton).then(result => {
+                requisition = result.data;
+                console.log(requisition)
+                getRequisitions().then(result => {
+                    requisitions = result.data;
+                    for (let i = 0; i < requisitions.length; i++) {
+                        if (requisitions[i].bookId == pageBookValues._id) {
+                            alreadyRequestedHeader.style.display = "block";
+                            requisitionButton.style.display = "none";
+                            notificationRequestBtn.style.display = "block";
+                        }
+                
+                    }
+                    
+                })
+                window.location = "userRequisitions.html";
+               })
             //IR PARA A PAGINA DAS REQUISIÇÕES
-            window.location = "userRequisitions.html";
+            
         }
 
 
