@@ -103,6 +103,7 @@ window.onload = function() {
 
             // FUNCTIONS
             searchBookItems(searchBar.value);
+            
             feedBooks(filteredStartingCount, arrayFilteredBooks.length, arrayFilteredBooks);
             console.log(paginationDiv)
             paginationDiv.style.display = "none";
@@ -121,6 +122,7 @@ window.onload = function() {
 
         // SEARCH BAR
         function searchBookItems(input) {
+            console.log(books)
             input = searchBar.value.toUpperCase();
             // LOOP TO CHECK 
             for (i = 0; i < books.length; i++) {

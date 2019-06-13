@@ -1609,7 +1609,7 @@ function feedBooks(startArrayLivros, endArrayLivros, someArrayLivros) {
                 "</div>" +
                 "<div class='card-footer align-center'>" + "<p class='score card-text'>";
 
-            if (someArrayLivros[i].scores.length != 1) {
+            if (someArrayLivros[i].scores.length != 0) {
                 strHtmlCard += starRating(someArrayLivros[i].scores);
             }
             else {
