@@ -1,5 +1,7 @@
 let books = [];
 let comments = [];
+let token="";
+//et data;
 //let pageBookValues;
 
 // // TEST SCRIPT
@@ -1093,6 +1095,9 @@ function checkLoginStorage() {
 
 function loginUser() {
     checkLoginStorage();
+    //if(token!=""){
+  //}
+    
     console.log("d")
     if (login != undefined) {
         if (login.typeUser == 0) {
@@ -1747,6 +1752,38 @@ async function getRequisitions() {
         console.log(err)
     }
 }
+
+
+
+
+///get LoggedUser
+async function getLoggedUser(data) {
+
+    try {
+        return await axios.get("https://edmilson-edmilson0.c9users.io/getLoggedUser", { headers: { Authorization: `Bearer ${data}` } })
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+//POST USER
+async function postLogin(data) {
+    try {
+        return await axios.post("https://edmilson-edmilson0.c9users.io/users/logIn", data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+
+let  loggedUserToken;
+///
+/*postLogin(data).then(result => {
+    token = result.data;
+})*/
 
 
 

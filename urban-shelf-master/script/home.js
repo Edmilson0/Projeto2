@@ -91,8 +91,7 @@ window.onload = function() {
             // 1.VARIABLES
             let inputEmailLogin = document.getElementById("loginEmail");
             let inputPasswordLogin = document.getElementById("loginPassword");
-
-
+           
             // 2.VERIFICAR SE UTILIZADOR EXISTE
             let userExists = false;
             let userName = "";
@@ -123,7 +122,20 @@ window.onload = function() {
                 console.log("Entrei")
                 localStorage.loginStorage = JSON.stringify(logedUser);
                 loginUser();
+                 data={
+                    email:inputEmailLogin.value,
+                    password:inputPasswordLogin.value
+                }
+                postLogin(data).then(result => {
+                    token = result.data;
+                    console.log(token)
+                    getLoggedUser(token).then(result => {
+                        loggedUserToken = result.data;
+                        console.log(loggedUserToken)
+                    })
+                })
                 // checkLogginStorage();
+                
                 $('#loginModal').modal('hide');
                 showUserNotifications();
 
