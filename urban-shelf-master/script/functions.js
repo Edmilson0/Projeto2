@@ -1,6 +1,6 @@
 let books = [];
 let comments = [];
-let token="";
+let token = "";
 //et data;
 //let pageBookValues;
 
@@ -1093,13 +1093,64 @@ function checkLoginStorage() {
     }
 }
 
+///guardar token no storage
+function setTokenStorage(dataToken) {
+    localStorage.loginToken = JSON.stringify(dataToken);
+}
+///obter token do storage e 
+function getTokenStorage() {
+    if (localStorage.loginToken) {
+        console.log(token)
+        return token = JSON.parse(localStorage.loginToken);
+        
+    }
+}
+/////
+function getTokenData(token) {
+    if (localStorage.loginToken) {
+            getLoggedUser(token).then(result => {
+                console.log(loggedUserToken)
+                loggedUserToken = result.data;
+                changesLogedUser(loggedUserToken)
+                
+    
+            })
+        }
+
+
+       
+    
+}
+//altearações
+function changesLogedUser(loggedUserToken){
+    console.log(loggedUserToken)
+    if (loggedUserToken != undefined) {
+        if (loggedUserToken.userTypeId == 0) {
+            console.log("s")
+            loadAdminPage();
+        }
+        if (loggedUserToken.userTypeId == 1) {
+            loadOperatorPage();
+        }
+        if (loggedUserToken.userTypeId == 2) {
+            loadUserPage();
+        }
+
+        if (document.getElementById("topBooksDiv")) {
+            document.getElementById("topBooksDiv").style.pointerEvents = "all";
+            document.getElementById("recentBooksDiv").style.pointerEvents = "all";
+        }
+    }
+}
 function loginUser() {
     checkLoginStorage();
     //if(token!=""){
-  //}
-    
+    //}
+    getTokenStorage()
+    //getTokenData(token)
     console.log("d")
-    if (login != undefined) {
+    getTokenData(getTokenStorage())
+    /*if (login != undefined) {
         if (login.typeUser == 0) {
             console.log("s")
             loadAdminPage();
@@ -1115,7 +1166,7 @@ function loginUser() {
             document.getElementById("topBooksDiv").style.pointerEvents = "all";
             document.getElementById("recentBooksDiv").style.pointerEvents = "all";
         }
-    }
+    }*/
 }
 
 
@@ -1125,6 +1176,10 @@ function allowLogout() {
         event.preventDefault();
         if (localStorage.loginStorage) {
             localStorage.removeItem("loginStorage");
+            window.location = "home.html";
+        }
+        if (localStorage.loginToken) {
+            localStorage.removeItem("loginToken");
             window.location = "home.html";
         }
     })
@@ -1178,11 +1233,11 @@ function loadUserPage() {
             navBibliotecas.setAttribute("href", "bibliotecas.html");
         }
     }
-    if (login.photo) {
-        navbarDropdown.innerHTML = "<img src='" + login.photo + "' id='userPhoto' class='img img-fluid'></img>" + login.userName;
+    if (loggedUserToken.photo) {
+        navbarDropdown.innerHTML = "<img src='" + loggedUserToken.photo + "' id='userPhoto' class='img img-fluid'></img>" + loggedUserToken.username;
     }
     else {
-        navbarDropdown.innerHTML = "<img src='images/userIcon(white).png' id='userPhoto' class='img img-fluid'></img>" + login.userName;
+        navbarDropdown.innerHTML = "<img src='images/userIcon(white).png' id='userPhoto' class='img img-fluid'></img>" + loggedUserToken.username;
     }
     if (welcomeJumbotron) {
         welcomeJumbotron.style.display = "none";
@@ -1235,11 +1290,11 @@ function loadAdminPage() {
             navBibliotecas.setAttribute("href", "bibliotecas.html");
         }
     }
-    if (login.photo) {
-        navbarDropdown.innerHTML = "<img src='" + login.photo + "' id='userPhoto' class='img img-fluid'></img>" + login.userName;
+    if (loggedUserToken.photo) {
+        navbarDropdown.innerHTML = "<img src='" + loggedUserToken.photo + "' id='userPhoto' class='img img-fluid'></img>" + loggedUserToken.username;
     }
     else {
-        navbarDropdown.innerHTML = "<img src='images/userIcon(white).png' id='userPhoto' class='img img-fluid'></img>" + login.userName;
+        navbarDropdown.innerHTML = "<img src='images/userIcon(white).png' id='userPhoto' class='img img-fluid'></img>" + loggedUserToken.username;
     }
     if (welcomeJumbotron) {
         welcomeJumbotron.style.display = "none";
@@ -1295,11 +1350,11 @@ function loadOperatorPage() {
             navBibliotecas.setAttribute("href", "bibliotecas.html");
         }
     }
-    if (login.photo) {
-        navbarDropdown.innerHTML = "<img src='" + login.photo + "' id='userPhoto' class='img img-fluid'></img>" + login.userName;
+    if (loggedUserToken.photo) {
+        navbarDropdown.innerHTML = "<img src='" + loggedUserToken.photo + "' id='userPhoto' class='img img-fluid'></img>" + loggedUserToken.username;
     }
     else {
-        navbarDropdown.innerHTML = "<img src='images/userIcon(white).png' id='userPhoto' class='img img-fluid'></img>" + login.userName;
+        navbarDropdown.innerHTML = "<img src='images/userIcon(white).png' id='userPhoto' class='img img-fluid'></img>" + loggedUserToken.username;
     }
     if (welcomeJumbotron) {
         welcomeJumbotron.style.display = "none";
@@ -1779,7 +1834,7 @@ async function postLogin(data) {
 }
 
 
-let  loggedUserToken;
+let loggedUserToken;
 ///
 /*postLogin(data).then(result => {
     token = result.data;

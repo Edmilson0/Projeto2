@@ -120,8 +120,8 @@ window.onload = function() {
             // 3.SE EXISTE; AUTENTICAR UTILIZADOR
             if (userExists) {
                 console.log("Entrei")
-                localStorage.loginStorage = JSON.stringify(logedUser);
-                loginUser();
+                //localStorage.loginStorage = JSON.stringify(logedUser);
+               
                  data={
                     email:inputEmailLogin.value,
                     password:inputPasswordLogin.value
@@ -129,10 +129,10 @@ window.onload = function() {
                 postLogin(data).then(result => {
                     token = result.data;
                     console.log(token)
-                    getLoggedUser(token).then(result => {
-                        loggedUserToken = result.data;
-                        console.log(loggedUserToken)
-                    })
+                    //guardar no storage
+                    setTokenStorage(token);
+                    loginUser();
+                
                 })
                 // checkLogginStorage();
                 
