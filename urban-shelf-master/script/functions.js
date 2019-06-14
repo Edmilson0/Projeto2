@@ -1102,7 +1102,7 @@ function getTokenStorage() {
     if (localStorage.loginToken) {
         //console.log(token)
         return token = JSON.parse(localStorage.loginToken);
-        
+
     }
 }
 /////
@@ -1122,7 +1122,7 @@ function getTokenStorage() {
     
 }*/
 //altearações
-function changesLogedUser(loggedUserToken){
+function changesLogedUser(loggedUserToken) {
     console.log(loggedUserToken)
     if (loggedUserToken != undefined) {
         if (loggedUserToken.userTypeId == 0) {
@@ -1142,11 +1142,13 @@ function changesLogedUser(loggedUserToken){
         }
     }
 }
-function loginUser() {  getLoggedUser(getTokenStorage()).then(result => {
-        
-    loggedUserToken = result.data;
-    console.log(loggedUserToken)
-    changesLogedUser(loggedUserToken)})
+function loginUser() {
+    getLoggedUser(getTokenStorage()).then(result => {
+
+        loggedUserToken = result.data;
+        console.log(loggedUserToken)
+        changesLogedUser(loggedUserToken)
+    })
     //checkLoginStorage();
     //if(token!=""){
     //}
@@ -1566,7 +1568,7 @@ function sortByDonationDateUp() {
 // CALCULATE FULLSCORE
 function fullscoreForSort(givenScores) {
     console.log(givenScores)
-    let total = givenScores.length ; // -1 BECAUSE BOOK._SCORES STARTS WITH AN ARRAY WITH 0 AS FIRST VALUE FOR SIMPLIFICATION
+    let total = givenScores.length; // -1 BECAUSE BOOK._SCORES STARTS WITH AN ARRAY WITH 0 AS FIRST VALUE FOR SIMPLIFICATION
     let score;
 
     if (total <= 0) {
@@ -1878,7 +1880,7 @@ async function postBook(data) {
         console.log(err)
     }
 
-    
+
 }
 //post comment
 async function postComment(data) {
@@ -2003,6 +2005,19 @@ async function putLibrary(data, id) {
         console.log(err)
     }
 
+}
+
+async function putRequisition(data, id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/requisition/" + id;
+        console.log(id)
+        return await axios.put(url, {
+            returnDate: data.returnDate
+        })
+    }
+    catch (err) {
+        console.log(err)
+    }
 }
 
 //DELETES

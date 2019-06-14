@@ -35,7 +35,7 @@ window.onload = function () {
     getLoggedUser(getTokenStorage()).then(result => {
 
         loggedUserToken = result.data;
-        
+
         //1. INSERIR NOME DO UTILIZADOR NA NAVBAR E NO CABEÇALHO
         let requisitionsHeader = document.getElementById("requisitionsHeader")
         let navbarDropdown = document.getElementById("navbarDropdown")
@@ -53,16 +53,16 @@ window.onload = function () {
 
                 for (let i = 0; i < requisitions.length; i++) {
                     if (requisitions[i].userId == loggedUserToken._id) { //REFERENCIAR USER ATUAL
-                        let dataLimite=(new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30))
-                        let dataAtual=new Date().getTime()
+                        let dataLimite = (new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30))
+                        let dataAtual = new Date().getTime()
                         //2.1 CALCULAR DIAS ATÉ A ENTREGA/ PASSADOS DESDE A DATA ESTABLECIDA PARA ENTREGA
-                        if ( dataAtual < dataLimite ) {
+                        if (dataAtual < dataLimite) {
                             dateDifference = new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30) - new Date().getTime()
                             console.log(dateDifference)
                             daysLeft = (dateDifference / (1000 * 3600 * 24)).toFixed() + " dias até entrega"
                         }
                         else {
-                            dateDifference = dataAtual-dataLimite
+                            dateDifference = dataAtual - dataLimite
                             //dateDifference = new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30) - new Date().getTime()
                             daysLeft = (dateDifference / (1000 * 3600 * 24)).toFixed() + " dias em atraso"
                             console.log(daysLeft)
@@ -71,15 +71,17 @@ window.onload = function () {
                             console.log(dateDifference)
                         }
                         //2.2 CALCULAR MULTAS
-                        /*if ((new Date().getTime() - arrayRequisitions[i]._requisitionDateFull) / (1000 * 3600 * 24) >= 30) {
-                            arrayRequisitions[i]._fine = ((new Date().getTime() - arrayRequisitions[i]._requisitionDateFull - (1000 * 3600 * 24 * 30)) / (1000 * 3600 * 24)).toFixed(2) + "€"
-                            displayFine = arrayRequisitions[i]._fine
-                            localStorage.requisitionStorage = JSON.stringify(arrayRequisitions)
-                            getStoredRequisitions()
+                        if ((new Date().getTime() - new Date(requisitions[i].requisitionDate).getTime()) / (1000 * 3600 * 24) >= 30) {
+                            //requisitions[i].fine = ((new Date().getTime() - arrayRequisitions[i].requisitionDate - (1000 * 3600 * 24 * 30)) / (1000 * 3600 * 24)).toFixed(2) + "€"
+
+                            displayFine = ((new Date().getTime() - new Date(requisitions[i].requisitionDate).getTime() - (1000 * 3600 * 24 * 30)) / (1000 * 3600 * 24)).toFixed(2)+"€"
+
+                            // localStorage.requisitionStorage = JSON.stringify(arrayRequisitions)
+                            // getStoredRequisitions()
                         }
                         else {
                             displayFine = "-"
-                        }*/
+                        }
                         //console.log(arrayRequisitions[i]._requisitionId)
 
                         let tblBookTitle
@@ -138,10 +140,14 @@ window.onload = function () {
     //5.1 ALIMENTAR O SELECT DA MODAL COM AS BIBLIOTECAS EXISTENTES
     let tblBibliotecaSelect = document.getElementById("tblBibliotecaSelect")
 
+    getLibraries().then(result => {
+        libraries = result.data;
+        console.log(libraries)
+    })
 
 
-    for (let i = 0; i < arrayBibliotecas.length; i++) {
-        tblBibliotecaSelect.innerHTML += "<option value='" + arrayBibliotecas[i]._libraryId + "'>" + arrayBibliotecas[i]._adress + "</option>"
+    for (let i = 0; i < libraries.length; i++) {
+        tblBibliotecaSelect.innerHTML += "<option value='" + libraries[i]._id + "'>" + libraries[i].adress + "</option>"
     }
 
     //5.2 IMPEDIR SELEÇÃO DE BIBLIOTECAS SOBRELOTADAS
@@ -153,16 +159,16 @@ window.onload = function () {
 
         count = 0
 
-        for (let i = 0; i < arrayLivros.length; i++) {
-            if (arrayLivros[i]._libraryId == tblBibliotecaSelect.value) {
+        for (let i = 0; i < books.length; i++) {
+            if (books[i]._id == tblBibliotecaSelect.value) {
                 count++;
             }
         }
 
 
-        for (let i = 0; i < arrayBibliotecas.length; i++) {
-            if (tblBibliotecaSelect.value == arrayBibliotecas[i]._libraryId) {
-                if (count >= arrayBibliotecas[i]._capacity) {
+        for (let i = 0; i < libraries.length; i++) {
+            if (tblBibliotecaSelect.value == libraries[i]._id) {
+                if (count >= libraries[i].capacity) {
                     alert("A biblioteca já se encontra na sua capacidade máxima!")
                 }
                 else {

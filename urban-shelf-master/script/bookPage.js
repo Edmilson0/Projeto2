@@ -502,6 +502,7 @@ window.onload = function () {
                 userId:loggedUserToken._id,
                 bookId:pageBookValues._id,
                 requisitionDate:d,
+                fine:0
                 //returnDate:dd
              
              }
