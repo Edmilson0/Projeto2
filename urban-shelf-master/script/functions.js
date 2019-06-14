@@ -1,4 +1,5 @@
 let books = [];
+let notifications=[]
 let comments = [];
 let token = "";
 //et data;
@@ -237,21 +238,28 @@ function getStoredNotifications() {
 let a = 0
 // DISPLAY CURRENT USER NOTIFICATIONS
 function showUserNotifications() {
-    getStoredNotifications();
-    for (let i = 0; i < arrayNotifications.length; i++) {
-        if (arrayNotifications[i]._userId == login.id) {
+    //getStoredNotifications();
+    getNotifications().then(result => {
+        notifications = result.data;
+        getBooks().then(result => {
+            books = result.data;
+            getRequisitions().then(result => {
+                requisitions = result.data;
+
+    for (let i = 0; i < notifications.length; i++) {
+        if (notifications[i].userId == loggedUserToken._id) {
             //VERIFICAR SE O TÍTULO ESTÁ DISPONÍVEL
             let bookIsAvailable = false
             let catalogBookCount = 0
             let requisitionedBookCount = 0
 
-            for (let j = 0; j < arrayLivros.length; j++) {
-                if (arrayLivros[j]._title == arrayNotifications[i]._bookTitle) {
+            for (let j = 0; j < books.length; j++) {
+                if (books[j].title == notifications[i].title) {
                     catalogBookCount++
-                    for (let k = 0; k < arrayRequisitions.length; k++) {
-                        if (arrayRequisitions[k]._bookId == arrayLivros[j]._bookId) {
-                            console.log("arrayRequisitions[k]._bookId" + arrayRequisitions[k]._bookId)
-                            console.log("arrayLivros[j]._bookId" + arrayLivros[j]._bookId)
+                    for (let k = 0; k < requisitions.length; k++) {
+                        if (requisitions[k].bookId == books[j]._id) {
+                            console.log(requisitions[k].bookId)
+                            console.log(books[j]._id)
                             requisitionedBookCount++
 
                         }
@@ -271,7 +279,7 @@ function showUserNotifications() {
 
 
             if (bookIsAvailable) { //INCOMPLETO//////////////////////////////
-                document.getElementById("notificationsDropdown").innerHTML += '<a class="dropdown-item ' + arrayNotifications[i]._bookTitle + '" href="bookPage.html">O livro "' + arrayNotifications[i]._bookTitle + '" encontra-se disponível para requisição' + '</a>'
+                document.getElementById("notificationsDropdown").innerHTML += '<a class="dropdown-item ' + notifications[i].title + '" href="bookPage.html">O livro "' + notifications[i].title + '" encontra-se disponível para requisição' + '</a>'
 
                 a = i;
                 console.log("a: " + a)
@@ -289,6 +297,9 @@ function showUserNotifications() {
 
         document.getElementById("notificationsDropdown").getElementsByTagName("a")[i].addEventListener("click", getTitle)
     }
+})
+})
+})
 }
 
 //FUNÇÃO PARA OBTER O TITULO DO LIVRO DA NOTIFICAÇÃO SELECIONADA
@@ -1862,6 +1873,40 @@ async function getRequisitions() {
         console.log(err)
     }
 }
+///het notifications
+async function getNotifications() {
+
+    try {
+        return await axios.get("https://edmilson-edmilson0.c9users.io/notifications")
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+//post notification
+async function postNotification(data) {
+    try {
+        return await axios.post("https://edmilson-edmilson0.c9users.io/notifications", data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+//delete noti
+async function delNotification(id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/notifications/" + id;
+        console.log(id)
+        return await axios.delete(url)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
 
 
 
