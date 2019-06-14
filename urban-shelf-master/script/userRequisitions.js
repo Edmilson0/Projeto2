@@ -53,8 +53,9 @@ window.onload = function () {
 
                 for (let i = 0; i < requisitions.length; i++) {
                     if (requisitions[i].userId == loggedUserToken._id) {
-                        if (requisitions[i].returnDate == undefined) {
+                        if (requisitions[i].returnDate == null) {
                             //REFERENCIAR USER ATUAL
+                            console.log(requisitions[i].returnDate)
                             let dataLimite = (new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30))
                             let dataAtual = new Date().getTime()
                             //2.1 CALCULAR DIAS ATÉ A ENTREGA/ PASSADOS DESDE A DATA ESTABLECIDA PARA ENTREGA
@@ -188,6 +189,7 @@ window.onload = function () {
                                 }
                                 putRequisition(new Date(), currentRequisitionId).then(result => {
                                     //book = result.data;
+                                    console.log(currentRequisitionId)
                                     requisition = result.data
                                     //console
                                     //location.reload()

@@ -5,8 +5,9 @@ window.onload = function () {
     // INITIATE FUNCTIONS
     getLibraries().then(result => {
         libraries = result.data;
-        refreshTableBibliotecas()
-        console.log(libraries)
+        refreshTableBibliotecas();
+        addMapMarkers();
+        //console.log(libraries)
     })
 
     //refreshStoredBibliotecas();

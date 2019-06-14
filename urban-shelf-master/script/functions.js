@@ -457,38 +457,80 @@ function displayMapMarkes() {
 
 // ADDMAPMARKERS FUNCTION
 function addMapMarkers() {
+    console.log("libraries:"+libraries)
     var icon = {
         url: "images/map-marker-alt.png", // url
         scaledSize: new google.maps.Size(70, 55), // scaled size
     };
-    for (let i = 0; i < arrayBibliotecas.length; i++) {
+   
+    for (let i = 0; i < libraries.length; i++) {
+        console.log(libraries[i].coordinatesLat)
         let marker = new google.maps.Marker({
-            position: { lat: parseFloat(arrayBibliotecas[i]._coordenatesLat), lng: parseFloat(arrayBibliotecas[i]._coordenatesLong) },
-            map: map,
-            title: arrayBibliotecas[i]._adress,
+            position: { lat: parseFloat(libraries[i].coordinatesLat), lng: parseFloat(libraries[i].coordinatesLong) },
+            //map: map,
+            title: libraries[i].adress,
             icon: icon
         })
-
+        marker.setMap(map)
     }
+  
 }
-
-
-function addCurrentMarkers() {
+function addMapMarker(library) {
+    console.log(library)
     var icon = {
         url: "images/map-marker-alt.png", // url
         scaledSize: new google.maps.Size(70, 55), // scaled size
     };
-    for (let i = 0; i < arrayBibliotecas.length; i++) {
-        if (pageBookValues._libraryId == arrayBibliotecas[i]._libraryId) {
-            let marker = new google.maps.Marker({
-                position: { lat: parseFloat(arrayBibliotecas[i]._coordenatesLat), lng: parseFloat(arrayBibliotecas[i]._coordenatesLong) },
-                map: map,
-                title: arrayBibliotecas[i]._adress,
-                icon: icon
-            })
+   
+   
+        let marker = new google.maps.Marker({
+            position: { lat: parseFloat(library.coordinatesLat), lng: parseFloat(library.coordinatesLong) },
+            //map: map,
+            title: library.adress,
+            icon: icon
+        })
+        marker.setMap(map)
+    
+  
+}
 
-        }
-    }
+function addCurrentMarkers() {
+
+
+
+
+    var icon = {
+        url: "images/map-marker-alt.png", // url
+        scaledSize: new google.maps.Size(70, 55), // scaled size
+    };
+    getBooks().then(result => {
+        
+        books = result.data;
+        getLibraries().then(result => {
+            libraries = result.data;
+            //refreshTableBibliotecas();
+            getBookPageValues();
+            for (i = 0; i < libraries.length; i++) {
+                if (libraries[i]._id == pageBookValues.libraryId) {
+                    let library=libraries[i];
+                   // console.log(library)
+                    addCurrentMarkers(library);
+                    let marker = new google.maps.Marker({
+                        position: { lat: parseFloat(arrayBibliotecas[i]._coordenatesLat), lng: parseFloat(arrayBibliotecas[i]._coordenatesLong) },
+                        //map: map,
+                        title: arrayBibliotecas[i]._adress,
+                        icon: icon
+                    })
+                    marker.setMap(map)
+
+                }
+            }
+   
+           
+
+        })
+    })
+    
 }
 
 
@@ -1966,7 +2008,7 @@ async function putBookLibrary(data, id) {
 async function putRequisition(data, id) {
     try {
         url = "https://edmilson-edmilson0.c9users.io/requisition/" + id;
-        console.log(id)
+        console.log(data)
         return await axios.put(url, { returnDate: data })
     }
     catch (err) {
@@ -2029,7 +2071,7 @@ async function putLibrary(data, id) {
 
 }
 
-async function putRequisition(data, id) {
+/*async function putRequisition(data, id) {
     try {
         url = "https://edmilson-edmilson0.c9users.io/requisition/" + id;
         console.log(id)
@@ -2040,7 +2082,7 @@ async function putRequisition(data, id) {
     catch (err) {
         console.log(err)
     }
-}
+}*/
 
 //DELETES
 async function delBook(id) {

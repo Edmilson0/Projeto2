@@ -2,76 +2,77 @@ window.onload = function () {
     //console.log("bookpagevalue:" + pageBookValues)
     // INITIATE FUNCTIONS   
     getLoggedUser(getTokenStorage()).then(result => {
-        
+
         loggedUserToken = result.data;
         console.log(loggedUserToken)
         changesLogedUser(loggedUserToken)
         showUserNotifications();
 
-            // ADD COMMENT
-    let commentForm = document.getElementById("commentForm");
-    commentForm.addEventListener("submit", function (event) {
-        event.preventDefault()
-        getComments().then(result => {
-            comments = result.data;
-            //console.log(comments)
-            getUsers().then(result => {
-                users = result.data;
-                //console.log(users)
-                // VARS
-                let inputComment = document.getElementById("inputComment");
-                let commentExists = false;
+        // ADD COMMENT
+        let commentForm = document.getElementById("commentForm");
+        commentForm.addEventListener("submit", function (event) {
+            event.preventDefault()
+            getComments().then(result => {
+                comments = result.data;
+                //console.log(comments)
+                getUsers().then(result => {
+                    users = result.data;
+                    //console.log(users)
+                    // VARS
 
-                // CHECK IF COMMENT EXISTS
-                for (let i = 0; i < comments.length; i++) {
-                    if (loggedUserToken._id == comments[i].userId && comments[i].bookId == pageBookValues._id) {
-                        commentExists = true;
+                    let inputComment = document.getElementById("inputComment");
+                    let commentExists = false;
+
+                    // CHECK IF COMMENT EXISTS
+                    for (let i = 0; i < comments.length; i++) {
+                        if (loggedUserToken._id == comments[i].userId && comments[i].bookId == pageBookValues._id) {
+                            commentExists = true;
+                        }
+
                     }
 
-                }
-
-                // CREATE NEW COMMENT IF COMMENTEXISTS == FALSE
-                if (commentExists) {
-                    alert("Já comentou este livro!");
-                }
-                else {
-                    let newComment = new Comment(inputComment.value, loggedUserToken._id, pageBookValues._bookId);
-                    let newCommentPost = {
-                        bookId: pageBookValues._id,
-                        userId: loggedUserToken._id,
-                        txtComment: inputComment.value,
-                        commentDate: new Date()
+                    // CREATE NEW COMMENT IF COMMENTEXISTS == FALSE
+                    if (commentExists) {
+                        alert("Já comentou este livro!");
                     }
-                    //arrayComments.push(newComment);
-                    console.log(newCommentPost)
-                    postComment(newCommentPost).then(result => {
-                        comment = result.data;
-                        console.log(comment)
-                        getComments().then(result => {
-                            comments = result.data;
-                            commentSection.innerHTML = feedCommentSection();
+                    else {
+                        let newComment = new Comment(inputComment.value, loggedUserToken._id, pageBookValues._bookId);
+                        let newCommentPost = {
+                            bookId: pageBookValues._id,
+                            userId: loggedUserToken._id,
+                            txtComment: inputComment.value,
+                            commentDate: new Date()
+                        }
+                        //arrayComments.push(newComment);
+                        console.log(newCommentPost)
+                        postComment(newCommentPost).then(result => {
+                            comment = result.data;
+                            console.log(comment)
+                            getComments().then(result => {
+                                comments = result.data;
+                                commentSection.innerHTML = feedCommentSection();
+                            })
+                            commentForm.reset();
+
                         })
-                        commentForm.reset();
-                       
-                       })
                         //localStorage.commentStorage = JSON.stringify(arrayComments);
                         //getStoredComments();
                         //event.preventDefault()
                         // PUSH SCORE TO SCORES PROPERTY
                         //for (let i = 0; i < books.length; i++) {
-                           // if (pageBookValues._id == books[i]._id) {
-                                //books[i].scores.push(parseInt(inputScore.value));
-                                //localStorage.bookStorage = JSON.stringify(arrayLivros);
-                                // getStoredBooks();
-                                // event.preventDefault()
-                           // }
+                        // if (pageBookValues._id == books[i]._id) {
+                        //books[i].scores.push(parseInt(inputScore.value));
+                        //localStorage.bookStorage = JSON.stringify(arrayLivros);
+                        // getStoredBooks();
+                        // event.preventDefault()
+                        // }
 
                         //}
-                        
-                        let arrayScores=pageBookValues.scores;
+
+                        let arrayScores = pageBookValues.scores;
                         arrayScores.push(parseInt(inputScore.value))
-                        pageBookValues.scores=arrayScores;
-                        localStorage.bookPageValues=JSON.stringify(pageBookValues);
+                        pageBookValues.scores = arrayScores;
+                        localStorage.bookPageValues = JSON.stringify(pageBookValues);
                         //localStorage.pageBookValues.scores=JSON.stringify(arrayScores);
                         putBookSores(arrayScores, pageBookValues._id).then(result => {
                             book = result.data;
@@ -79,29 +80,29 @@ window.onload = function () {
                             //carregarBooks()
                             console.log(pageBookValues)
                             //localStorage.removeItem(pageBookValues)
-                            localStorage.bookPageValues=JSON.stringify(pageBookValues);
+                            localStorage.bookPageValues = JSON.stringify(pageBookValues);
                             feedBookInfo()
                         })
-                        
-                        //event.preventDefault()
-                    
-                }
 
+                        //event.preventDefault()
+
+                    }
+
+                })
             })
         })
-    })
 
     })
-    
+
     //getStoredBooks();
-    
+
     loginUser();
-  
-    
+
+
     allowLogout();
-    
+
     //GET TAGS
-    
+
     getTags().then(result => {
         tags = result.data;
         getCategories().then(result => {
@@ -120,17 +121,18 @@ window.onload = function () {
         getBookPageValues()
         requisitions = result.data;
         for (let i = 0; i < requisitions.length; i++) {
-            if (requisitions[i].bookId == pageBookValues._id) {
+            if ((requisitions[i].bookId == pageBookValues._id) && (requisitions[i].returnDate == null)) {
+
                 alreadyRequestedHeader.style.display = "block";
                 requisitionButton.style.display = "none";
                 notificationRequestBtn.style.display = "block";
             }
-    
+
         }
         //console.log("requisitons: "+requisitions)
     })
 
-    getStoredComments();
+    //getStoredComments();
     // TEST
     // let requisitionTest = new Requisition(1, 3)
     // requisitionTest._requisitionDateFull = new Date().getTime()-(1000*3600*24*40)
@@ -139,10 +141,14 @@ window.onload = function () {
     // arrayRequisitions.push(requisitionTest)
     // localStorage.requisitionStorage = JSON.stringify(arrayRequisitions)
 
-    getStoredRequisitions();
-    getStoredBibliotecas();
+    //getStoredRequisitions();
+    //getStoredBibliotecas();
+
+
+
+
     getStoredNotifications();
-    
+
 
 
 
@@ -177,6 +183,9 @@ window.onload = function () {
             commentSection.innerHTML = feedCommentSection();
         })
     })
+
+
+   
 
     // FUNCTION TO REPLACE VALUES IN BOOK PAGE
     function feedBookInfo() {
@@ -463,88 +472,87 @@ window.onload = function () {
 
         getRequisitions().then(result => {
             requisitions = result.data;
-      
-                for (let j = 0; j < requisitions.length; j++) {
-                    // INCREMENT REQUISITIONCOUNT || MAX == 2
-                    if (loggedUserToken._id == requisitions[j].userId) {
-                        let dataLimite = (new Date(requisitions[j].requisitionDate).getTime() + (1000 * 3600 * 24 * 30))
-                        let dataAtual = new Date().getTime()
 
-                        if(dataAtual > dataLimite)
-                        {
-                            hasFine = true   
-                        }
-                    
-                        requisitionCount++;
+            for (let j = 0; j < requisitions.length; j++) {
+                // INCREMENT REQUISITIONCOUNT || MAX == 2
+                if (loggedUserToken._id == requisitions[j].userId && requisitions[j].returnDate == null) {
+                    let dataLimite = (new Date(requisitions[j].requisitionDate).getTime() + (1000 * 3600 * 24 * 30))
+                    let dataAtual = new Date().getTime()
+
+                    if (dataAtual > dataLimite) {
+                        hasFine = true
                     }
+
+                    requisitionCount++;
                 }
-   
-    
+            }
 
-        // CHECK REQUISITIONCOUNT || MAX == 2
-        if (requisitionCount >= 2) {
-            errorMsg += "Já tem 2 livros requisitados!";
-        }
-        if (hasFine) {
-            errorMsg += "\n Tem multas por pagar! Por favor pague antes de requesitar outro livro."
-        }
-   
-        // CHECK FOR ERRORS
-        if (errorMsg) {
-            alert(errorMsg);
-        }
-        else {
-            getBookPageValues()
-            //REGISTAR NOVA REQUISITION
-            let d=new Date();
-            //let dd=d.setMonth(1)
-            let newRequisiton = {
 
-                userId:loggedUserToken._id,
-                bookId:pageBookValues._id,
-                requisitionDate:d,
-                //fine:0
-                //returnDate:dd
-             
-             }
 
-            //arrayRequisitions.push(newRequisiton);
-            //localStorage.requisitionStorage = JSON.stringify(arrayRequisitions);
+            // CHECK REQUISITIONCOUNT || MAX == 2
+            if (requisitionCount >= 2) {
+                errorMsg += "Já tem 2 livros requisitados!";
+            }
+            if (hasFine) {
+                errorMsg += "\n Tem multas por pagar! Por favor pague antes de requesitar outro livro."
+            }
 
-            //APAGAR NOTIFICAÇÃO DESTE TITULO CASO EXISTA
-            /*/for (let i = 0; i < arrayNotifications.length; i++) {
-                if (arrayNotifications[i]._userId == login.id && bookTitle.innerHTML == arrayNotifications[i]._bookTitle) {
-                    arrayNotifications.splice(i, 1)
-                    localStorage.notificationStorage = JSON.stringify(arrayNotifications)
+            // CHECK FOR ERRORS
+            if (errorMsg) {
+                alert(errorMsg);
+            }
+            else {
+                getBookPageValues()
+                //REGISTAR NOVA REQUISITION
+                let d = new Date();
+                //let dd=d.setMonth(1)
+                let newRequisiton = {
+
+                    userId: loggedUserToken._id,
+                    bookId: pageBookValues._id,
+                    requisitionDate: d,
+                    //fine:0
+                    //returnDate:dd
+
                 }
-            }*/
-            postRequisition(newRequisiton).then(result => {
-                requisition = result.data;
-                console.log(requisition)
-                getRequisitions().then(result => {
-                    requisitions = result.data;
-                    for (let i = 0; i < requisitions.length; i++) {
-                        if (requisitions[i].bookId == pageBookValues._id) {
-                            alreadyRequestedHeader.style.display = "block";
-                            requisitionButton.style.display = "none";
-                            notificationRequestBtn.style.display = "block";
-                        }
-                
+
+                //arrayRequisitions.push(newRequisiton);
+                //localStorage.requisitionStorage = JSON.stringify(arrayRequisitions);
+
+                //APAGAR NOTIFICAÇÃO DESTE TITULO CASO EXISTA
+                /*/for (let i = 0; i < arrayNotifications.length; i++) {
+                    if (arrayNotifications[i]._userId == login.id && bookTitle.innerHTML == arrayNotifications[i]._bookTitle) {
+                        arrayNotifications.splice(i, 1)
+                        localStorage.notificationStorage = JSON.stringify(arrayNotifications)
                     }
-                    
+                }*/
+                postRequisition(newRequisiton).then(result => {
+                    requisition = result.data;
+                    console.log(requisition)
+                    getRequisitions().then(result => {
+                        requisitions = result.data;
+                        for (let i = 0; i < requisitions.length; i++) {
+                            if (requisitions[i].bookId == pageBookValues._id) {
+                                alreadyRequestedHeader.style.display = "block";
+                                requisitionButton.style.display = "none";
+                                notificationRequestBtn.style.display = "block";
+                            }
+
+                        }
+
+                    })
+                    window.location = "userRequisitions.html";
                 })
-                window.location = "userRequisitions.html";
-               })
-            //IR PARA A PAGINA DAS REQUISIÇÕES
-            
-        }
+                //IR PARA A PAGINA DAS REQUISIÇÕES
+
+            }
 
 
 
-    })
+        })
 
 
-    
+
 
     })
 
