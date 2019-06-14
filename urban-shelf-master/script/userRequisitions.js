@@ -52,54 +52,57 @@ window.onload = function () {
                 //console.log("requisitons: "+requisitions)
 
                 for (let i = 0; i < requisitions.length; i++) {
-                    if (requisitions[i].userId == loggedUserToken._id) { //REFERENCIAR USER ATUAL
-                        let dataLimite = (new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30))
-                        let dataAtual = new Date().getTime()
-                        //2.1 CALCULAR DIAS ATÉ A ENTREGA/ PASSADOS DESDE A DATA ESTABLECIDA PARA ENTREGA
-                        if (dataAtual < dataLimite) {
-                            dateDifference = new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30) - new Date().getTime()
-                            console.log(dateDifference)
-                            daysLeft = (dateDifference / (1000 * 3600 * 24)).toFixed() + " dias até entrega"
-                        }
-                        else {
-                            dateDifference = dataAtual - dataLimite
-                            //dateDifference = new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30) - new Date().getTime()
-                            daysLeft = (dateDifference / (1000 * 3600 * 24)).toFixed() + " dias em atraso"
-                            console.log(daysLeft)
-                            console.log(new Date()/*requisitions[i].requisitionDate).getTime()*/ /*+ (1000 * 3600 * 24 * 30))*/)
-                            console.log(dataLimite)
-                            console.log(dateDifference)
-                        }
-                        //2.2 CALCULAR MULTAS
-                        if ((new Date().getTime() - new Date(requisitions[i].requisitionDate).getTime()) / (1000 * 3600 * 24) >= 30) {
-                            //requisitions[i].fine = ((new Date().getTime() - arrayRequisitions[i].requisitionDate - (1000 * 3600 * 24 * 30)) / (1000 * 3600 * 24)).toFixed(2) + "€"
+                    if (requisitions[i].userId == loggedUserToken._id) {
+                        if (requisitions[i].returnDate == undefined) {
+                            //REFERENCIAR USER ATUAL
+                            let dataLimite = (new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30))
+                            let dataAtual = new Date().getTime()
+                            //2.1 CALCULAR DIAS ATÉ A ENTREGA/ PASSADOS DESDE A DATA ESTABLECIDA PARA ENTREGA
+                            if (dataAtual < dataLimite) {
+                                dateDifference = new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30) - new Date().getTime()
+                                console.log(dateDifference)
+                                daysLeft = (dateDifference / (1000 * 3600 * 24)).toFixed() + " dias até entrega"
+                            }
+                            else {
+                                dateDifference = dataAtual - dataLimite
+                                //dateDifference = new Date(requisitions[i].requisitionDate).getTime() + (1000 * 3600 * 24 * 30) - new Date().getTime()
+                                daysLeft = (dateDifference / (1000 * 3600 * 24)).toFixed() + " dias em atraso"
+                                console.log(daysLeft)
+                                console.log(new Date()/*requisitions[i].requisitionDate).getTime()*/ /*+ (1000 * 3600 * 24 * 30))*/)
+                                console.log(dataLimite)
+                                console.log(dateDifference)
+                            }
+                            //2.2 CALCULAR MULTAS
+                            if ((new Date().getTime() - new Date(requisitions[i].requisitionDate).getTime()) / (1000 * 3600 * 24) >= 30) {
+                                //requisitions[i].fine = ((new Date().getTime() - arrayRequisitions[i].requisitionDate - (1000 * 3600 * 24 * 30)) / (1000 * 3600 * 24)).toFixed(2) + "€"
 
-                            displayFine = ((new Date().getTime() - new Date(requisitions[i].requisitionDate).getTime() - (1000 * 3600 * 24 * 30)) / (1000 * 3600 * 24)).toFixed(2)+"€"
+                                displayFine = ((new Date().getTime() - new Date(requisitions[i].requisitionDate).getTime() - (1000 * 3600 * 24 * 30)) / (1000 * 3600 * 24)).toFixed(2) + "€"
 
-                            // localStorage.requisitionStorage = JSON.stringify(arrayRequisitions)
-                            // getStoredRequisitions()
-                        }
-                        else {
-                            displayFine = "-"
-                        }
-                        //console.log(arrayRequisitions[i]._requisitionId)
+                                // localStorage.requisitionStorage = JSON.stringify(arrayRequisitions)
+                                // getStoredRequisitions()
+                            }
+                            else {
+                                displayFine = "-"
+                            }
+                            //console.log(arrayRequisitions[i]._requisitionId)
 
-                        let tblBookTitle
-                        for (let j = 0; j < books.length; j++) {
-                            if (requisitions[i].bookId == books[j]._id) {
-                                tblBookTitle = books[j].title
+                            let tblBookTitle
+                            for (let j = 0; j < books.length; j++) {
+                                if (requisitions[i].bookId == books[j]._id) {
+                                    tblBookTitle = books[j].title
+                                }
+
                             }
 
+                            tblRequisitions.getElementsByTagName("tbody")[0].innerHTML += "<tr>" +
+                                "<td class='id'>" + requisitions[i]._id + "</td>" +
+                                "<td class='title'>" + tblBookTitle + "</td>" + //RETORNAR TITULO DO LIVRO COM O ID CORRESPONDENTE
+                                "<td class='reqDate'>" + requisitions[i].requisitionDate.slice(0, 10) + "</td>" +
+                                "<td class='daysLeft'>" + daysLeft + "</td>" +  //NECESSÁRIO ALTERAR PARA MOSTRAR DIAS ATÉ A ENTREGA / DIAS PASSADOS DA ENTREGA
+                                "<td class='fine'>" + displayFine + "</td>" +
+                                '<td><button id="' + tblRequisitions.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length + '" type="button" class="reqButton btn btn-primary" style="width: 140px;" data-toggle="modal" data-target="#bookReturnModal"> Devolver/ Pagar</button></td>' //BOTÃO PARA DEVOLVER LIVRO/ PAGAR MULTA ////////////////////////
+                                + "</tr>"
                         }
-
-                        tblRequisitions.getElementsByTagName("tbody")[0].innerHTML += "<tr>" +
-                            "<td class='id'>" + requisitions[i]._id + "</td>" +
-                            "<td class='title'>" + tblBookTitle + "</td>" + //RETORNAR TITULO DO LIVRO COM O ID CORRESPONDENTE
-                            "<td class='reqDate'>" + requisitions[i].requisitionDate.slice(0, 10) + "</td>" +
-                            "<td class='daysLeft'>" + daysLeft + "</td>" +  //NECESSÁRIO ALTERAR PARA MOSTRAR DIAS ATÉ A ENTREGA / DIAS PASSADOS DA ENTREGA
-                            "<td class='fine'>" + displayFine + "</td>" +
-                            '<td><button id="' + tblRequisitions.getElementsByTagName("tbody")[0].getElementsByTagName("tr").length + '" type="button" class="reqButton btn btn-primary" style="width: 140px;" data-toggle="modal" data-target="#bookReturnModal"> Devolver/ Pagar</button></td>' //BOTÃO PARA DEVOLVER LIVRO/ PAGAR MULTA ////////////////////////
-                            + "</tr>"
                     }
                 }
                 //3. ATUALIZAR CONTADOR DE LIVROS REQUISITADOS
@@ -129,83 +132,112 @@ window.onload = function () {
                         document.getElementById("modalRequisitionId").innerHTML += "" + tblRequisitions.getElementsByTagName("tbody")[0].getElementsByTagName("tr")[i].getElementsByClassName("id")[0].innerHTML
                     })
                 }
-            })
-        })
-    })
-
-    //console.log(tblRequisitionsBookCount)
 
 
-    //5. ESCOLHER BIBLIOTECA ONDE ENTREGAR O LIVRO
-    //5.1 ALIMENTAR O SELECT DA MODAL COM AS BIBLIOTECAS EXISTENTES
-    let tblBibliotecaSelect = document.getElementById("tblBibliotecaSelect")
-
-    getLibraries().then(result => {
-        libraries = result.data;
-        console.log(libraries)
-    })
+                //console.log(tblRequisitionsBookCount)
 
 
-    for (let i = 0; i < libraries.length; i++) {
-        tblBibliotecaSelect.innerHTML += "<option value='" + libraries[i]._id + "'>" + libraries[i].adress + "</option>"
-    }
+                //5. ESCOLHER BIBLIOTECA ONDE ENTREGAR O LIVRO
+                //5.1 ALIMENTAR O SELECT DA MODAL COM AS BIBLIOTECAS EXISTENTES
+                let tblBibliotecaSelect = document.getElementById("tblBibliotecaSelect")
 
-    //5.2 IMPEDIR SELEÇÃO DE BIBLIOTECAS SOBRELOTADAS
-    let btnReturn = document.getElementById("btnReturn")
-    let count
-
-    btnReturn.addEventListener("click", function () {
+                getLibraries().then(result => {
+                    libraries = result.data;
+                    console.log(libraries)
 
 
-        count = 0
 
-        for (let i = 0; i < books.length; i++) {
-            if (books[i]._id == tblBibliotecaSelect.value) {
-                count++;
-            }
-        }
+                    for (let i = 0; i < libraries.length; i++) {
+                        tblBibliotecaSelect.innerHTML += "<option value='" + libraries[i]._id + "'>" + libraries[i].adress + "</option>"
+                    }
+                })
+                //5.2 IMPEDIR SELEÇÃO DE BIBLIOTECAS SOBRELOTADAS
+                let btnReturn = document.getElementById("btnReturn")
+                let count
 
+                btnReturn.addEventListener("click", function () {
+                    let idBook;
 
-        for (let i = 0; i < libraries.length; i++) {
-            if (tblBibliotecaSelect.value == libraries[i]._id) {
-                if (count >= libraries[i].capacity) {
-                    alert("A biblioteca já se encontra na sua capacidade máxima!")
-                }
-                else {
-                    //ALTERAR PROPRIEDADES DO LIVRO EM QUESTÃO
-                    //ID DO LIVRO EM QUESTÃO
-                    let currentRequisitionId = document.getElementById("modalRequisitionId").innerHTML.replace("ID da requisição: ", "")
-                    console.log(currentRequisitionId)
-                    for (let i = 0; i < arrayRequisitions.length; i++) {
-                        if (arrayRequisitions[i]._requisitionId == currentRequisitionId) {
-                            for (let j = 0; j < arrayLivros.length; j++) {
-                                if (arrayLivros[j]._bookId == arrayRequisitions[i]._bookId) {
-                                    arrayLivros[j]._libraryId = tblBibliotecaSelect.value
-                                    //COMETER LIVRO À LOCALSTORAGE
-                                    localStorage.bookStorage = JSON.stringify(arrayLivros)
-                                }
-                            }
-                            //REMOVER REQUISIÇÂO
-                            arrayRequisitions.splice(i, 1);
-                            console.log(currentRequisitionId)
-                            console.log("abc")
-                            //REMOVER REQUISIÇÃO DA LOCALSTORAGE
-                            localStorage.requisitionStorage = JSON.stringify(arrayRequisitions)
-                            //DAR REFRESH À PÁGINA
-                            location.reload()
+                    count = 0
+
+                    for (let i = 0; i < books.length; i++) {
+                        if (books[i].libraryId == tblBibliotecaSelect.value) {
+                            count++;
+
                         }
 
 
                     }
 
 
+                    for (let i = 0; i < libraries.length; i++) {
+                        if (tblBibliotecaSelect.value == libraries[i]._id) {
+                            if (count >= libraries[i].capacity) {
+                                alert("A biblioteca já se encontra na sua capacidade máxima!")
+                            }
+                            else {
+                                //ALTERAR PROPRIEDADES DO LIVRO EM QUESTÃO
+                                //ID DO LIVRO EM QUESTÃO
+                                let currentRequisitionId = document.getElementById("modalRequisitionId").innerHTML.replace("ID da requisição: ", "")
+                                console.log(currentRequisitionId)
+                                for (let i = 0; i < requisitions.length; i++) {
+                                    if (requisitions[i]._id == currentRequisitionId) {
+                                        idBook = requisitions[i].bookId;
+
+                                    }
+                                }
+                                putRequisition(new Date(), currentRequisitionId).then(result => {
+                                    //book = result.data;
+                                    requisition = result.data
+                                    //console
+                                    //location.reload()
+                                    //carregarBooks()
+                                    putBookLibrary(libraries[i]._id, idBook).then(result => {
+                                        //book = result.data;
+                                        book = result.data
+                                        location.reload()
+                                        //carregarBooks()
+                                    })
+                                })
+
+                                /*for (let i = 0; i < arrayRequisitions.length; i++) {
+                                    if (arrayRequisitions[i]._requisitionId == currentRequisitionId) {
+                                        for (let j = 0; j < arrayLivros.length; j++) {
+                                            if (arrayLivros[j]._bookId == arrayRequisitions[i]._bookId) {
+                                                arrayLivros[j]._libraryId = tblBibliotecaSelect.value
+                                                //COMETER LIVRO À LOCALSTORAGE
+                                                localStorage.bookStorage = JSON.stringify(arrayLivros)
+                                            }
+                                        }
+                                        //REMOVER REQUISIÇÂO
+                                        arrayRequisitions.splice(i, 1);
+                                        console.log(currentRequisitionId)
+                                        console.log("abc")
+                                        //REMOVER REQUISIÇÃO DA LOCALSTORAGE
+                                        localStorage.requisitionStorage = JSON.stringify(arrayRequisitions)
+                                        //DAR REFRESH À PÁGINA
+                                        location.reload()
+                                    }
+
+
+                                }*/
 
 
 
-                }
-            }
-        }
 
+
+
+                            }
+                        }
+                    }
+
+                })
+            })
+
+
+        })
     })
+
+
 
 }

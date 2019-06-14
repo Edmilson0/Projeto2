@@ -460,25 +460,26 @@ window.onload = function () {
 
         // VALIDATIONS
         // CHECK ALL ACTIVE REQUISITIONS OF LOGGED USER
+
         getRequisitions().then(result => {
             requisitions = result.data;
-            getUsers().then(result => {
-                users = result.data;
-        for (let i = 0; i < users.length; i++) {
-            if (loggedUserToken.id == users[i]._userId) {
-                for (let j = 0; j < arrayRequisitions.length; j++) {
+      
+                for (let j = 0; j < requisitions.length; j++) {
                     // INCREMENT REQUISITIONCOUNT || MAX == 2
-                    if (users[i]._id == requisitions[j]._userId) {
-                        // CHECK FOR FINES
-                        /*if (arrayRequisitions[j]._fine != 0) {
-                            hasFine = true;
-                        }*/
+                    if (loggedUserToken._id == requisitions[j].userId) {
+                        let dataLimite = (new Date(requisitions[j].requisitionDate).getTime() + (1000 * 3600 * 24 * 30))
+                        let dataAtual = new Date().getTime()
+
+                        if(dataAtual > dataLimite)
+                        {
+                            hasFine = true   
+                        }
+                    
                         requisitionCount++;
                     }
                 }
-            }
-        }})
-    })
+   
+    
 
         // CHECK REQUISITIONCOUNT || MAX == 2
         if (requisitionCount >= 2) {
@@ -487,7 +488,7 @@ window.onload = function () {
         if (hasFine) {
             errorMsg += "\n Tem multas por pagar! Por favor pague antes de requesitar outro livro."
         }
-
+   
         // CHECK FOR ERRORS
         if (errorMsg) {
             alert(errorMsg);
@@ -502,10 +503,11 @@ window.onload = function () {
                 userId:loggedUserToken._id,
                 bookId:pageBookValues._id,
                 requisitionDate:d,
-                fine:0
+                //fine:0
                 //returnDate:dd
              
              }
+
             //arrayRequisitions.push(newRequisiton);
             //localStorage.requisitionStorage = JSON.stringify(arrayRequisitions);
 
@@ -539,10 +541,10 @@ window.onload = function () {
 
 
 
+    })
 
 
-
-
+    
 
     })
 

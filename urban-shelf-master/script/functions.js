@@ -1952,6 +1952,28 @@ async function putBook(data, id) {
     }
 
 }
+async function putBookLibrary(data, id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/books/" + id;
+        console.log(id)
+        return await axios.put(url, { libraryId: data })
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+async function putRequisition(data, id) {
+    try {
+        url = "https://edmilson-edmilson0.c9users.io/requisition/" + id;
+        console.log(id)
+        return await axios.put(url, { returnDate: data })
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
 ///editar socres livro
 async function putBookSores(data, id) {
     try {
