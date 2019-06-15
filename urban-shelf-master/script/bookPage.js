@@ -7,8 +7,9 @@ window.onload = function () {
         console.log(loggedUserToken)
         changesLogedUser(loggedUserToken)
         
-        //checkNotification()
-        showUserNotifications();
+        checkNotification()
+        showUserNotifications()
+        //showUserNotifications();
 
         // ADD COMMENT
         let commentForm = document.getElementById("commentForm");
@@ -258,46 +259,26 @@ window.onload = function () {
         getNotifications().then(result => {
             notifications = result.data;
         let hasBookNotification = false
-        console.log(hasBookNotification)
+        console.log(loggedUserToken._id)
+       console.log(pageBookValues.title)
         for (let i = 0; i < notifications.length; i++) {
-            if (notifications[i].title == bookTitle.innerHTML && notifications[i].userId == loggedUserToken._id) {
-                
+            console.log(notifications[i].title)
+            if (notifications[i].title == pageBookValues.title && notifications[i].userId == loggedUserToken._id) {
+                console.log(notifications[i].title)
                 hasBookNotification = true
                 
             }
         }
 
         if (hasBookNotification) {
+            console.log("entrei")
             notificationRequestBtn.innerHTML = "<i class='fas fa-bell-slash'></i>"
             document.getElementById("alreadyRequestedHeader").innerText = "Será notificado quando este título estiver disponível para requisição."
 
             //REMOVER EVENT LISTENER PRA CRIAR NOTIFICAÇÃO
-            notificationRequestBtn.removeEventListener("click", function () {
-                let newNotification = {userId:loggedUserToken.id, title:bookTitle.innerHTML}
-
-                //arrayNotifications.push(newNotification)
-                postNotification(newNotification).then(result => {
-                    requisition = result.data;
-                   //checkNotification();
-                })
-                //localStorage.notificationStorage = JSON.stringify(arrayNotifications)
-                
-            })
+            notificationRequestBtn.removeEventListener("click",addNotificação)
             //ADICIONAR EVENT LISTENER PRA REMOVER NOTIFICAÇÃO
-            notificationRequestBtn.addEventListener("click", function () {
-                for (let i = 0; i < notifications.length; i++) {
-                    if (notifications[i].title == bookTitle.innerHTML && notifications[i].userId == loggedUserToken._id) {
-                        //arrayNotifications.splice(i, 1)
-                        delNotification(id).then(result => {
-                            notification = result.data;
-                           //checkNotification();
-                            
-                        })
-                        //localStorage.notificationStorage = JSON.stringify(arrayNotifications)
-                        
-                    }
-                }
-            })
+            notificationRequestBtn.addEventListener("click",removeNotification)
 
 
         }
@@ -307,32 +288,9 @@ window.onload = function () {
             document.getElementById("alreadyRequestedHeader").innerText = "Este livro já se encontra requisitado."
 
             //REMOVER EVENT LISTENER PRA REMOVER NOTIFICAÇÃO
-            notificationRequestBtn.removeEventListener("click", function () {
-                for (let i = 0; i < notifications.length; i++) {
-                    if (notifications[i].title == bookTitle.innerHTML && notifications[i].userId == loggedUserToken._id) {
-                        //arrayNotifications.splice(i, 1)
-                        delNotification(id).then(result => {
-                            notification = result.data;
-                            //checkNotification();
-                            
-                        })
-                        //localStorage.notificationStorage = JSON.stringify(arrayNotifications)
-                        checkNotification();
-                    }
-                }
-            })
+            notificationRequestBtn.removeEventListener("click",removeNotification)
             //ADICIONAR EVENT LISTENER PRA CRIAR NOTIFICAÇÃO
-            notificationRequestBtn.addEventListener("click", function () {
-                //let newNotification = new BookNotification(login.id, bookTitle.innerHTML)
-                let newNotification = {userId:loggedUserToken.id, title:bookTitle.innerHTML}
-                postNotification(newNotification).then(result => {
-                    requisition = result.data;
-                    //checkNotification();
-                })
-                //arrayNotifications.push(newNotification)
-                //localStorage.notificationStorage = JSON.stringify(arrayNotifications)
-                checkNotification();
-            })
+            notificationRequestBtn.addEventListener("click",addNotificação)
         }
     })
     //checkNotification()
@@ -340,7 +298,34 @@ window.onload = function () {
 
    // checkNotification()
 
+function addNotificação(){
+    //console.log("yw")
+    let newNotification = {userId:loggedUserToken._id, title:pageBookValues.title}
 
+                //arrayNotifications.push(newNotification)
+                postNotification(newNotification).then(result => {
+                    requisition = result.data;
+                    checkNotification();
+                    //showUserNotifications()
+                })
+
+}
+
+function removeNotification(){
+    for (let i = 0; i < notifications.length; i++) {
+        if (notifications[i].title == pageBookValues.title && notifications[i].userId == loggedUserToken._id) {
+            //arrayNotifications.splice(i, 1)
+            delNotification(notifications[i]._id).then(result => {
+                notification = result.data;
+                checkNotification();
+                //showUserNotifications();
+                
+            })
+          
+        }
+    }
+
+}
     // SCORE INPUT EVENTS
     let inputScore = document.getElementById("inputScore");
     let previewScore = document.getElementById("previewScore");

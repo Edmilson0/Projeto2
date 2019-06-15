@@ -1,5 +1,5 @@
 let books = [];
-let notifications=[]
+let notifications = []
 let comments = [];
 let token = "";
 //et data;
@@ -246,60 +246,62 @@ function showUserNotifications() {
             getRequisitions().then(result => {
                 requisitions = result.data;
 
-    for (let i = 0; i < notifications.length; i++) {
-        if (notifications[i].userId == loggedUserToken._id) {
-            //VERIFICAR SE O TÍTULO ESTÁ DISPONÍVEL
-            let bookIsAvailable = false
-            let catalogBookCount = 0
-            let requisitionedBookCount = 0
+                for (let i = 0; i < notifications.length; i++) {
+                    if (notifications[i].userId == loggedUserToken._id) {
+                        //VERIFICAR SE O TÍTULO ESTÁ DISPONÍVEL
+                        let bookIsAvailable = false
+                        let catalogBookCount = 0
+                        let requisitionedBookCount = 0
+                        console.log("entrei")
+                        for (let j = 0; j < books.length; j++) {
+                            if (books[j].title == notifications[i].title) {
+                                catalogBookCount++
+                                for (let k = 0; k < requisitions.length; k++) {
+                                    if (requisitions[k].bookId == books[j]._id && requisitions[k].returnDate == null)// && requisitions[k].returnDate==null) 
+                                    {
+                                        //console.log(requisitions[k].bookId)
+                                        //console.log(books[j]._id)
+                                        requisitionedBookCount++
+                                        //bookIsAvailable = true;
 
-            for (let j = 0; j < books.length; j++) {
-                if (books[j].title == notifications[i].title) {
-                    catalogBookCount++
-                    for (let k = 0; k < requisitions.length; k++) {
-                        if (requisitions[k].bookId == books[j]._id) {
-                            console.log(requisitions[k].bookId)
-                            console.log(books[j]._id)
-                            requisitionedBookCount++
-
+                                    }
+                                }
+                            }
                         }
+                        //DIFERENÇA ENTRE LIVROS COM O MESMO TITULO DISPONIVEIS NO CATALOGO, E OS QUE ESTÃO REQUISITADOS
+                        console.log("catalogBookCount = " + catalogBookCount)
+                        console.log("requisitionedBookCount = " + requisitionedBookCount)
+                        console.log("catalogBookCount - requisitionedBookCount = " + (catalogBookCount - requisitionedBookCount))
+
+                        if (catalogBookCount - requisitionedBookCount > 0) {
+                            bookIsAvailable = true
+                        }
+
+                        //DAR DISPLAY ÁS NOTIFICAÇÕES
+
+
+                        if (bookIsAvailable) { //INCOMPLETO//////////////////////////////
+                            document.getElementById("notificationsDropdown").innerHTML += '<p style="color:white;" class="dropdown-item ' + notifications[i].title + '">O livro "' + notifications[i].title + '" encontra-se disponível para requisição' + '</p>'
+
+                            a = i;
+                            console.log("a: " + a)
+
+                            document.getElementById("notificationsDropdownCounter").innerHTML = document.getElementById("notificationsDropdown").getElementsByTagName("p").length + '   <i class="fas fa-bell"></i>'
+
+                            console.log(bookIsAvailable)
+                        }
+
+
+
                     }
                 }
-            }
-            //DIFERENÇA ENTRE LIVROS COM O MESMO TITULO DISPONIVEIS NO CATALOGO, E OS QUE ESTÃO REQUISITADOS
-            console.log("catalogBookCount = " + catalogBookCount)
-            console.log("requisitionedBookCount = " + requisitionedBookCount)
-            console.log("catalogBookCount - requisitionedBookCount = " + (catalogBookCount - requisitionedBookCount))
+                for (let i = 0; i < document.getElementById("notificationsDropdown").getElementsByTagName("p").length; i++) {
 
-            if (catalogBookCount - requisitionedBookCount > 0) {
-                bookIsAvailable = true
-            }
-
-            //DAR DISPLAY ÁS NOTIFICAÇÕES
-
-
-            if (bookIsAvailable) { //INCOMPLETO//////////////////////////////
-                document.getElementById("notificationsDropdown").innerHTML += '<a class="dropdown-item ' + notifications[i].title + '" href="bookPage.html">O livro "' + notifications[i].title + '" encontra-se disponível para requisição' + '</a>'
-
-                a = i;
-                console.log("a: " + a)
-
-                document.getElementById("notificationsDropdownCounter").innerHTML = document.getElementById("notificationsDropdown").getElementsByTagName("a").length + '   <i class="fas fa-bell"></i>'
-
-                console.log(bookIsAvailable)
-            }
-
-
-
-        }
-    }
-    for (let i = 0; i < document.getElementById("notificationsDropdown").getElementsByTagName("a").length; i++) {
-
-        document.getElementById("notificationsDropdown").getElementsByTagName("a")[i].addEventListener("click", getTitle)
-    }
-})
-})
-})
+                    document.getElementById("notificationsDropdown").getElementsByTagName("p")[i].addEventListener("click", getTitle)
+                }
+            })
+        })
+    })
 }
 
 //FUNÇÃO PARA OBTER O TITULO DO LIVRO DA NOTIFICAÇÃO SELECIONADA
@@ -311,23 +313,41 @@ function getTitle(e) {
     let q = e.target.className.indexOf(' ')
     let titulo = e.target.className.slice(q + 1, e.target.className.length)
     console.log("titulo: " + titulo)
-    for (let j = arrayLivros.length - 1; j >= 0; j--) {
-        if (titulo == arrayLivros[j]._title) {
-            for (let k = 0; k < arrayRequisitions.length; k++) {
-                if (arrayRequisitions[k]._bookId == arrayLivros[j]._bookId) {
+    for (let j = books.length - 1; j >= 0; j--) {
+        if (titulo == books[j].title) {
+            for (let k = 0; k < requisitions.length; k++) {
+                if (requisitions[k].bookId == books[j]._id && requisitions[k].returnDate == null) {
                     continue;
                 }
                 else {
-                    arrayNotRequisitioned.push(arrayLivros[j]);
+                    arrayNotRequisitioned.push(books[j]);
                 }
             }
         }
     }
-    firstNotRequistionedId = arrayNotRequisitioned[0]._bookId
+    firstNotRequistionedId = arrayNotRequisitioned[0]._id
     console.log("lala")
     console.log(firstNotRequistionedId)
-    window.location = "bookPage.html"
     setStorageValuesBook(firstNotRequistionedId);
+
+    for (let i = 0; i < notifications.length; i++) {
+        
+        if (notifications[i].title == pageBookValues.title && notifications[i].userId == loggedUserToken._id) {
+            //arrayNotifications.splice(i, 1)
+            delNotification(notifications[i]._id).then(result => {
+                notification = result.data;
+                console.log(notifications[i]._id);
+                console.log(loggedUserToken._id);
+                //checkNotification();
+                window.location = "bookPage.html"
+                
+                //showUserNotifications();
+
+            })
+
+        }
+    }
+
     // getBookPageValues();
     // feedBookInfo(firstNotRequistionedId);
 
@@ -468,12 +488,12 @@ function displayMapMarkes() {
 
 // ADDMAPMARKERS FUNCTION
 function addMapMarkers() {
-    console.log("libraries:"+libraries)
+    console.log("libraries:" + libraries)
     var icon = {
         url: "images/map-marker-alt.png", // url
         scaledSize: new google.maps.Size(70, 55), // scaled size
     };
-   
+
     for (let i = 0; i < libraries.length; i++) {
         console.log(libraries[i].coordinatesLat)
         let marker = new google.maps.Marker({
@@ -484,7 +504,7 @@ function addMapMarkers() {
         })
         marker.setMap(map)
     }
-  
+
 }
 function addMapMarker(library) {
     console.log(library)
@@ -492,17 +512,17 @@ function addMapMarker(library) {
         url: "images/map-marker-alt.png", // url
         scaledSize: new google.maps.Size(70, 55), // scaled size
     };
-   
-   
-        let marker = new google.maps.Marker({
-            position: { lat: parseFloat(library.coordinatesLat), lng: parseFloat(library.coordinatesLong) },
-            //map: map,
-            title: library.adress,
-            icon: icon
-        })
-        marker.setMap(map)
-    
-  
+
+
+    let marker = new google.maps.Marker({
+        position: { lat: parseFloat(library.coordinatesLat), lng: parseFloat(library.coordinatesLong) },
+        //map: map,
+        title: library.adress,
+        icon: icon
+    })
+    marker.setMap(map)
+
+
 }
 
 function addCurrentMarkers() {
@@ -515,7 +535,7 @@ function addCurrentMarkers() {
         scaledSize: new google.maps.Size(70, 55), // scaled size
     };
     getBooks().then(result => {
-        
+
         books = result.data;
         getLibraries().then(result => {
             libraries = result.data;
@@ -523,8 +543,8 @@ function addCurrentMarkers() {
             getBookPageValues();
             for (i = 0; i < libraries.length; i++) {
                 if (libraries[i]._id == pageBookValues.libraryId) {
-                    let library=libraries[i];
-                   // console.log(library)
+                    let library = libraries[i];
+                    // console.log(library)
                     addCurrentMarkers(library);
                     let marker = new google.maps.Marker({
                         position: { lat: parseFloat(arrayBibliotecas[i]._coordenatesLat), lng: parseFloat(arrayBibliotecas[i]._coordenatesLong) },
@@ -536,12 +556,12 @@ function addCurrentMarkers() {
 
                 }
             }
-   
-           
+
+
 
         })
     })
-    
+
 }
 
 
@@ -820,6 +840,7 @@ function editTag(id) {
             tag = result.data;
 
             carregarTags()
+            $("#editModal").modal("hide");
         })
 
         event.preventDefault();
@@ -928,6 +949,7 @@ function editCategoria(id) {
             category = result.data;
 
             carregarCategories()
+            $("#editModal").modal("hide");
         })
 
         event.preventDefault();

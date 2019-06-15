@@ -132,6 +132,7 @@ window.onload = function() {
                     //guardar no storage
                     setTokenStorage(token);
                     loginUser();
+                    showUserNotifications();
                 
                 })
                 // checkLogginStorage();
