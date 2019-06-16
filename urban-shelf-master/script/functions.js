@@ -308,11 +308,11 @@ function showUserNotifications() {
 function getTitle(e) {
     let firstNotRequistionedId = 0
     let arrayNotRequisitioned = [];
-    console.log(e.target.className)
-    console.log("hehe")
+    //console.log(e.target.className)
+    //console.log("hehe")
     let q = e.target.className.indexOf(' ')
     let titulo = e.target.className.slice(q + 1, e.target.className.length)
-    console.log("titulo: " + titulo)
+   // console.log("titulo: " + titulo)
     for (let j = books.length - 1; j >= 0; j--) {
         if (titulo == books[j].title) {
             for (let k = 0; k < requisitions.length; k++) {
@@ -326,8 +326,8 @@ function getTitle(e) {
         }
     }
     firstNotRequistionedId = arrayNotRequisitioned[0]._id
-    console.log("lala")
-    console.log(firstNotRequistionedId)
+    //console.log("lala")
+    //console.log(firstNotRequistionedId)
     setStorageValuesBook(firstNotRequistionedId);
 
     for (let i = 0; i < notifications.length; i++) {
@@ -336,8 +336,8 @@ function getTitle(e) {
             //arrayNotifications.splice(i, 1)
             delNotification(notifications[i]._id).then(result => {
                 notification = result.data;
-                console.log(notifications[i]._id);
-                console.log(loggedUserToken._id);
+               // console.log(notifications[i]._id);
+                //console.log(loggedUserToken._id);
                 //checkNotification();
                 window.location = "bookPage.html"
                 
@@ -421,7 +421,7 @@ function refreshStoredTags() {
 
 function getStoredTags() {
     if (localStorage.tagStorage) {
-        arrayTags = JSON.parse(localStorage.tagStorage);
+        //arrayTags = JSON.parse(localStorage.tagStorage);
     }
 }
 
@@ -436,7 +436,7 @@ function refreshStoredCategorias() {
 
 function getStoredCategorias() {
     if (localStorage.categoriaStorage) {
-        arrayCategorias = JSON.parse(localStorage.categoriaStorage);
+        //arrayCategorias = JSON.parse(localStorage.categoriaStorage);
     }
 }
 
@@ -453,7 +453,7 @@ function refreshStoredBibliotecas() {
 
 function getStoredBibliotecas() {
     if (localStorage.bibliotecaStorage) {
-        arrayBibliotecas = JSON.parse(localStorage.bibliotecaStorage);
+        //arrayBibliotecas = JSON.parse(localStorage.bibliotecaStorage);
     }
 }
 
@@ -468,7 +468,7 @@ function refreshStoredUsers() {
 
 function getStoredUsers() {
     if (localStorage.userStorage) {
-        arrayUsers = JSON.parse(localStorage.userStorage);
+        //arrayUsers = JSON.parse(localStorage.userStorage);
     }
 }
 
@@ -488,14 +488,14 @@ function displayMapMarkes() {
 
 // ADDMAPMARKERS FUNCTION
 function addMapMarkers() {
-    console.log("libraries:" + libraries)
+    //console.log("libraries:" + libraries)
     var icon = {
         url: "images/map-marker-alt.png", // url
         scaledSize: new google.maps.Size(70, 55), // scaled size
     };
 
     for (let i = 0; i < libraries.length; i++) {
-        console.log(libraries[i].coordinatesLat)
+        //console.log(libraries[i].coordinatesLat)
         let marker = new google.maps.Marker({
             position: { lat: parseFloat(libraries[i].coordinatesLat), lng: parseFloat(libraries[i].coordinatesLong) },
             //map: map,
@@ -544,15 +544,16 @@ function addCurrentMarkers() {
             for (i = 0; i < libraries.length; i++) {
                 if (libraries[i]._id == pageBookValues.libraryId) {
                     let library = libraries[i];
-                    // console.log(library)
-                    addCurrentMarkers(library);
-                    let marker = new google.maps.Marker({
-                        position: { lat: parseFloat(arrayBibliotecas[i]._coordenatesLat), lng: parseFloat(arrayBibliotecas[i]._coordenatesLong) },
+                     console.log(library)
+                    //addCurrentMarkers(library);
+                    let bookmarker = new google.maps.Marker({
+                        position: { lat: parseFloat(library.coordinatesLat.toString()), lng: parseFloat(library.coordinatesLong.toString()) },
                         //map: map,
-                        title: arrayBibliotecas[i]._adress,
+                        title: library.adress,
                         icon: icon
                     })
-                    marker.setMap(map)
+                    console.log(bookmarker)
+                    bookmarker.setMap(map)
 
                 }
             }
@@ -1198,10 +1199,10 @@ function getTokenStorage() {
 }*/
 //altearações
 function changesLogedUser(loggedUserToken) {
-    console.log(loggedUserToken)
+   // console.log(loggedUserToken)
     if (loggedUserToken != undefined) {
         if (loggedUserToken.userTypeId == 0) {
-            console.log("s")
+           // console.log("s")
             loadAdminPage();
         }
         if (loggedUserToken.userTypeId == 1) {

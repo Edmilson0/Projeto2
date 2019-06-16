@@ -21,7 +21,7 @@ window.onload = function() {
 
 
     // TEST
-    if (arrayTags.length == 0) {
+   /* if (arrayTags.length == 0) {
         testTags();
     }
 
@@ -39,7 +39,7 @@ window.onload = function() {
 
     if (arrayUsers.length == 0) {
         testUsers();
-    }
+    }*/
 
 
 
