@@ -6,7 +6,7 @@ window.onload = function () {
     getUsers().then(result => {
         users = result.data;
         refreshTableUsers()
-        console.log(users)
+        //console.log(users)
     })
     //refreshStoredUsers();
 

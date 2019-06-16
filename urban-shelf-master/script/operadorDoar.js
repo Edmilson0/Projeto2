@@ -181,7 +181,7 @@ window.onload = function() {
             // STORE IN LOCAL STORAGE
             localStorage.bookStorage = JSON.stringify(arrayLivros);
             //refreshStoredBooks();
-            console.log(selectTags)
+            //console.log(selectTags)
             //postBook(newBookData).then(carregarBooks()).then()
             postBook(newBookData).then(result => {
                 book = result.data;

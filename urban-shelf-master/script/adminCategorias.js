@@ -6,7 +6,7 @@ window.onload = function () {
     getCategories().then(result => {
         categories = result.data;
         refreshTableCategorias()
-        console.log(categories)
+       // console.log(categories)
     })
 
     //refreshStoredCategorias();

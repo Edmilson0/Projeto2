@@ -4,7 +4,7 @@ window.onload = function () {
     getLoggedUser(getTokenStorage()).then(result => {
 
         loggedUserToken = result.data;
-        console.log(loggedUserToken)
+        //console.log(loggedUserToken)
         changesLogedUser(loggedUserToken)
         
         checkNotification()
@@ -47,10 +47,10 @@ window.onload = function () {
                             commentDate: new Date()
                         }
                         //arrayComments.push(newComment);
-                        console.log(newCommentPost)
+                        //console.log(newCommentPost)
                         postComment(newCommentPost).then(result => {
                             comment = result.data;
-                            console.log(comment)
+                           // console.log(comment)
                             getComments().then(result => {
                                 comments = result.data;
                                 commentSection.innerHTML = feedCommentSection();
@@ -79,9 +79,9 @@ window.onload = function () {
                         //localStorage.pageBookValues.scores=JSON.stringify(arrayScores);
                         putBookSores(arrayScores, pageBookValues._id).then(result => {
                             book = result.data;
-                            console.log(arrayScores)
+                            //console.log(arrayScores)
                             //carregarBooks()
-                            console.log(pageBookValues)
+                           // console.log(pageBookValues)
                             //localStorage.removeItem(pageBookValues)
                             localStorage.bookPageValues = JSON.stringify(pageBookValues);
                             feedBookInfo()
@@ -114,9 +114,9 @@ window.onload = function () {
 
             feedBookInfo()
 
-            console.log(categories)
+            //console.log(categories)
         })
-        console.log(tags)
+        //console.log(tags)
     })
 
     //GET REQUISITIONS
@@ -180,10 +180,10 @@ window.onload = function () {
     let commentSection = document.getElementById("commentSection");
     getComments().then(result => {
         comments = result.data;
-        console.log(comments)
+        //console.log(comments)
         getUsers().then(result => {
             users = result.data;
-            console.log(users)
+            //console.log(users)
             commentSection.innerHTML = feedCommentSection();
         })
     })
@@ -259,19 +259,19 @@ window.onload = function () {
         getNotifications().then(result => {
             notifications = result.data;
         let hasBookNotification = false
-        console.log(loggedUserToken._id)
-       console.log(pageBookValues.title)
+        //console.log(loggedUserToken._id)
+      // console.log(pageBookValues.title)
         for (let i = 0; i < notifications.length; i++) {
-            console.log(notifications[i].title)
+           // console.log(notifications[i].title)
             if (notifications[i].title == pageBookValues.title && notifications[i].userId == loggedUserToken._id) {
-                console.log(notifications[i].title)
+               // console.log(notifications[i].title)
                 hasBookNotification = true
                 
             }
         }
 
         if (hasBookNotification) {
-            console.log("entrei")
+            //console.log("entrei")
             notificationRequestBtn.innerHTML = "<i class='fas fa-bell-slash'></i>"
             document.getElementById("alreadyRequestedHeader").innerText = "Será notificado quando este título estiver disponível para requisição."
 
@@ -351,7 +351,7 @@ function removeNotification(){
     // FUNCTION CHANGE PREVIEW SCORE FROM INPUT VALUE
     function changePreviewRating(score) {
 
-        console.log(score)
+        //console.log(score)
         let strScore = "";
         if (score >= 85) {
             strScore = "<span class='fa fa-star checked'></span>" +
@@ -538,7 +538,7 @@ function removeNotification(){
                 }
                 postRequisition(newRequisiton).then(result => {
                     requisition = result.data;
-                    console.log(requisition)
+                    //console.log(requisition)
                     getRequisitions().then(result => {
                         requisitions = result.data;
                         for (let i = 0; i < requisitions.length; i++) {

@@ -2,7 +2,7 @@ window.onload = function () {
     getLoggedUser(getTokenStorage()).then(result => {
 
         loggedUserToken = result.data;
-        console.log(loggedUserToken)
+        //console.log(loggedUserToken)
         changesLogedUser(loggedUserToken)
     })
     getLibraries().then(result => {

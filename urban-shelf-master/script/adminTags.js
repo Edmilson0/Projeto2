@@ -6,7 +6,7 @@ window.onload = function () {
     getTags().then(result => {
         tags = result.data;
         refreshTableTags()
-        console.log(tags)
+       // console.log(tags)
     })
     // refreshStoredTags();
 

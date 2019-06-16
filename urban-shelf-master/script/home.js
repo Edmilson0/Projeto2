@@ -59,7 +59,7 @@ window.onload = function() {
 
     // CALL LOGOUT FUNCTION
     allowLogout();
-    console.log(login)
+    //console.log(login)
 
     // ADD BOOKS TO TOP AND RECENT
     loadTopBooks();
@@ -86,7 +86,7 @@ window.onload = function() {
         event.preventDefault();
         getUsers().then(result => {
             users = result.data;
-            console.log(users)
+            //console.log(users)
 
             // 1.VARIABLES
             let inputEmailLogin = document.getElementById("loginEmail");
@@ -99,10 +99,10 @@ window.onload = function() {
             let typeUser;
             let photo;
             for (let i = 0; i < users.length; i++) {
-                console.log("ciclo")
+                //console.log("ciclo")
                 if (users[i].email == inputEmailLogin.value && users[i].password == inputPasswordLogin.value) {
                     userExists = true;
-                    console.log(userExists)
+                    //console.log(userExists)
                     id = users[i]._id;
                     userName = users[i].username;
                     typeUser = users[i].userTypeId;
@@ -119,7 +119,7 @@ window.onload = function() {
 
             // 3.SE EXISTE; AUTENTICAR UTILIZADOR
             if (userExists) {
-                console.log("Entrei")
+                //console.log("Entrei")
                 //localStorage.loginStorage = JSON.stringify(logedUser);
                
                  data={
@@ -128,7 +128,7 @@ window.onload = function() {
                 }
                 postLogin(data).then(result => {
                     token = result.data;
-                    console.log(token)
+                    //console.log(token)
                     //guardar no storage
                     setTokenStorage(token);
                     loginUser();

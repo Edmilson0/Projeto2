@@ -13,7 +13,7 @@ window.onload = function() {
 
     getBooks().then(result => {
         books = result.data;
-        console.log(books)
+        //console.log(books)
         // VARS
         let fullBooksCount;
         if (parseInt(books.length % 12) == 0) {
@@ -105,7 +105,7 @@ window.onload = function() {
             searchBookItems(searchBar.value);
             
             feedBooks(filteredStartingCount, arrayFilteredBooks.length, arrayFilteredBooks);
-            console.log(paginationDiv)
+            //console.log(paginationDiv)
             paginationDiv.style.display = "none";
             searchForm.style.display = "none";
             clearBtn.style.display = "block";
@@ -122,7 +122,7 @@ window.onload = function() {
 
         // SEARCH BAR
         function searchBookItems(input) {
-            console.log(books)
+           // console.log(books)
             input = searchBar.value.toUpperCase();
             // LOOP TO CHECK 
             for (i = 0; i < books.length; i++) {

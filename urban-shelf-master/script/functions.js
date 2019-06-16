@@ -1221,7 +1221,7 @@ function loginUser() {
     getLoggedUser(getTokenStorage()).then(result => {
 
         loggedUserToken = result.data;
-        console.log(loggedUserToken)
+        //console.log(loggedUserToken)
         changesLogedUser(loggedUserToken)
     })
     //checkLoginStorage();
@@ -1468,7 +1468,7 @@ function loadTopBooks() {
     getBooks().then(result => {
         books = result.data;
         //refreshTableBooks()
-        console.log(books)
+        //console.log(books)
         sortByScoreDown();
         let strHtmlCard = "";
         strHtmlCard += `<div class="row row-fluid">`;
@@ -1521,7 +1521,7 @@ function loadRecentBooks() {
     getBooks().then(result => {
         books = result.data;
         //refreshTableBooks()
-        console.log(books)
+        //console.log(books)
 
         sortByDonationDateDown(books);
         let strHtmlCard = "";
@@ -1572,7 +1572,7 @@ function loadRecentBooks() {
                 let bookItemId = bookItem[i].getAttribute("id");
 
                 setStorageValuesBook(bookItemId);
-                console.log("array" + books)
+                //console.log("array" + books)
                 getBookPageValues();
                 window.location = "bookPage.html";
 
@@ -1592,7 +1592,7 @@ function setStorageValuesBook(id) {
 
 
 
-            console.log(pageBookValues)
+            //console.log(pageBookValues)
             //window.location = "bookPage.html";
         }
     }
@@ -1632,7 +1632,7 @@ function sortByReleaseDateUp() {
 // SORT BY DONATION DATE BY MOST RECENT | DONT KNOW IF NEEDED
 function sortByDonationDateDown() {
     books.sort((a, b) => Date.parse(b.donationDate) - Date.parse(a.donationDate));
-    console.log(books)
+    //console.log(books)
 }
 
 // SORT BY DONATION DATE BY OLDEST | DONT KNOW IF NEEDED
@@ -1642,7 +1642,7 @@ function sortByDonationDateUp() {
 
 // CALCULATE FULLSCORE
 function fullscoreForSort(givenScores) {
-    console.log(givenScores)
+    //console.log(givenScores)
     let total = givenScores.length; // -1 BECAUSE BOOK._SCORES STARTS WITH AN ARRAY WITH 0 AS FIRST VALUE FOR SIMPLIFICATION
     let score;
 
@@ -1660,7 +1660,7 @@ function fullscoreForSort(givenScores) {
 
 // FEED BOOKS TO CATALOG CONTAINER
 function feedBooks(startArrayLivros, endArrayLivros, someArrayLivros) {
-    console.log(someArrayLivros)
+    //console.log(someArrayLivros)
     let strHtmlCard = "";
     let count = 0;
 
@@ -1737,7 +1737,7 @@ function feedBooks(startArrayLivros, endArrayLivros, someArrayLivros) {
 
 // STAR RATING
 function starRating(givenScores) {
-    console.log("starRating");
+    //console.log("starRating");
     let strScore = "";
     // CALCULATE SCORE(){
     if (givenScores.length > 0) {
