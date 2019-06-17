@@ -1971,9 +1971,9 @@ let loggedUserToken;
 /////////POSTS
 
 //POST USER
-async function postUser(data) {
+async function registoUser(data) {
     try {
-        return await axios.post("https://edmilson-edmilson0.c9users.io/users", data)
+        return await axios.post("https://edmilson-edmilson0.c9users.io/users/register", data)
     }
     catch (err) {
         console.log(err)

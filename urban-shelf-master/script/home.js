@@ -86,7 +86,7 @@ window.onload = function() {
         event.preventDefault();
         getUsers().then(result => {
             users = result.data;
-            //console.log(users)
+            console.log(users)
 
             // 1.VARIABLES
             let inputEmailLogin = document.getElementById("loginEmail");
@@ -98,24 +98,24 @@ window.onload = function() {
             let id;
             let typeUser;
             let photo;
-            for (let i = 0; i < users.length; i++) {
+           // for (let i = 0; i < users.length; i++) {
                 //console.log("ciclo")
-                if (users[i].email == inputEmailLogin.value && users[i].password == inputPasswordLogin.value) {
+               // if (users[i].email == inputEmailLogin.value && users[i].password == inputPasswordLogin.value) {
                     userExists = true;
                     //console.log(userExists)
-                    id = users[i]._id;
+                    /*id = users[i]._id;
                     userName = users[i].username;
                     typeUser = users[i].userTypeId;
-                    photo = users[i].photo;
-                }
-            }
+                    photo = users[i].photo;*/
+               // }
+           // }
 
-            let logedUser = {
+            /*let logedUser = {
                 id: id,
                 userName: userName,
                 typeUser: typeUser,
                 photo: photo
-            }
+            }*/
 
             // 3.SE EXISTE; AUTENTICAR UTILIZADOR
             if (userExists) {
@@ -228,7 +228,7 @@ window.onload = function() {
 
                 //ChromeSamples.log('Posting request to GitHub API...');
 
-                postUser(newUserBody)
+                registoUser(newUserBody)
 
                 // STORE USER
                 localStorage.userStorage = JSON.stringify(arrayUsers);
