@@ -3,7 +3,7 @@ let users;
 
 
 
-window.onload = function() {
+window.onload = function () {
 
 
 
@@ -21,25 +21,25 @@ window.onload = function() {
 
 
     // TEST
-   /* if (arrayTags.length == 0) {
-        testTags();
-    }
-
-    if (arrayCategorias.length == 0) {
-        testCategorias();
-    }
-
-    if (arrayBibliotecas.length == 0) {
-        testBibliotecas();
-    }
-
-    if (arrayLivros.length == 0) {
-        testBooks();
-    }
-
-    if (arrayUsers.length == 0) {
-        testUsers();
-    }*/
+    /* if (arrayTags.length == 0) {
+         testTags();
+     }
+ 
+     if (arrayCategorias.length == 0) {
+         testCategorias();
+     }
+ 
+     if (arrayBibliotecas.length == 0) {
+         testBibliotecas();
+     }
+ 
+     if (arrayLivros.length == 0) {
+         testBooks();
+     }
+ 
+     if (arrayUsers.length == 0) {
+         testUsers();
+     }*/
 
 
 
@@ -82,7 +82,7 @@ window.onload = function() {
 
 
     // LOGIN SUBMIT
-    formLogin.addEventListener("submit", function(event) {
+    formLogin.addEventListener("submit", function (event) {
         event.preventDefault();
         getUsers().then(result => {
             users = result.data;
@@ -91,24 +91,24 @@ window.onload = function() {
             // 1.VARIABLES
             let inputEmailLogin = document.getElementById("loginEmail");
             let inputPasswordLogin = document.getElementById("loginPassword");
-           
+
             // 2.VERIFICAR SE UTILIZADOR EXISTE
             let userExists = false;
             let userName = "";
             let id;
             let typeUser;
             let photo;
-           // for (let i = 0; i < users.length; i++) {
-                //console.log("ciclo")
-               // if (users[i].email == inputEmailLogin.value && users[i].password == inputPasswordLogin.value) {
-                    userExists = true;
-                    //console.log(userExists)
-                    /*id = users[i]._id;
-                    userName = users[i].username;
-                    typeUser = users[i].userTypeId;
-                    photo = users[i].photo;*/
-               // }
-           // }
+            // for (let i = 0; i < users.length; i++) {
+            //console.log("ciclo")
+            // if (users[i].email == inputEmailLogin.value && users[i].password == inputPasswordLogin.value) {
+            userExists = true;
+            //console.log(userExists)
+            /*id = users[i]._id;
+            userName = users[i].username;
+            typeUser = users[i].userTypeId;
+            photo = users[i].photo;*/
+            // }
+            // }
 
             /*let logedUser = {
                 id: id,
@@ -121,32 +121,42 @@ window.onload = function() {
             if (userExists) {
                 //console.log("Entrei")
                 //localStorage.loginStorage = JSON.stringify(logedUser);
-               
-                 data={
-                    email:inputEmailLogin.value,
-                    password:inputPasswordLogin.value
+
+                data = {
+                    email: inputEmailLogin.value,
+                    password: inputPasswordLogin.value
                 }
                 postLogin(data).then(result => {
                     token = result.data;
                     //console.log(token)
                     //guardar no storage
-                    setTokenStorage(token);
-                    loginUser();
-                    showUserNotifications();
-                
+                    if (token != "passwordinvalida") {
+                        setTokenStorage(token);
+                        loginUser();
+                        showUserNotifications();
+                       
+                        
+                    }
+                    else {
+                        console.log("hola")
+                        inputEmailLogin.setAttribute("class", "form-control col-md-12 is-invalid");
+                        inputPasswordLogin.setAttribute("class", "form-control col-md-12 is-invalid");
+                        let loginError = document.getElementById("loginError");
+                        loginError.style.color = "red";
+                        loginError.innerHTML = "Credenciais incorretas! Verifique o e-mail ou password.";
+
+                    }
+
                 })
                 // checkLogginStorage();
+
                 
-                $('#loginModal').modal('hide');
                 showUserNotifications();
+                $('#loginModal').modal('hide');
 
             }
             else {
-                inputEmailLogin.setAttribute("class", "form-control col-md-12 is-invalid");
-                inputPasswordLogin.setAttribute("class", "form-control col-md-12 is-invalid");
-                let loginError = document.getElementById("loginError");
-                loginError.style.color = "red";
-                loginError.innerHTML = "Credenciais incorretas! Verifique o e-mail ou password.";
+
             }
         })
 
@@ -156,7 +166,7 @@ window.onload = function() {
 
 
     // REGISTER SUBMIT
-    formRegister.addEventListener("submit", function(event) {
+    formRegister.addEventListener("submit", function (event) {
 
         event.preventDefault();
         getUsers().then(result => {
@@ -244,7 +254,7 @@ window.onload = function() {
 
         // CLOSE SUCCESS MODAL EVENT
         let closeSuccessModal = document.getElementById("closeSuccessModal");
-        closeSuccessModal.addEventListener("click", function(event) {
+        closeSuccessModal.addEventListener("click", function (event) {
             event.preventDefault();
             $("#sucessModal").modal("hide");
             $("#loginModal").modal("show");
